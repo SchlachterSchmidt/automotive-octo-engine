@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">automotive octo engine</string>
+
+    <!--Page titles-->
+    <string name="login_page_title">Login</string>
+    <string name="home_page_title">Home</string>
+    <string name="register_page_title">Register</string>
+    <string name="settings_page_title">Settings</string>
+
+    <!--Text labels-->
+    <string name="text_username">Username</string>string>
+    <string name="text_password">Password</string>string>
+    <string name="text_login">Login</string>string>
+
+    <string name="text_enter_username">Username</string>
+    <string name="text_enter_email">Email</string>
+    <string name="text_enter_first_name">First name</string>
+    <string name="text_enter_last_name">Last name</string>
+    <string name="text_enter_password">Password</string>
+    <string name="text_confirm_password">Confirm</string>
+
+    <!--Button labels-->
+    <string name="button_login">Login</string>
+    <string name="button_register">Register</string>
+    <string name="button_submit">Submit</string>
+
 </resources>
