@@ -49,12 +49,12 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/settings_page_title"
-            android:parentActivityName=".LoginActivity">
+            android:parentActivityName=".HomeActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="phg.com.automotiveoctoengine.LoginActivity" />
+                android:value="phg.com.automotiveoctoengine.HomeActivity" />
 
             <intent-filter>
                 <action android:name="phg.com.automotiveoctoengine.SettingsActivity" />
