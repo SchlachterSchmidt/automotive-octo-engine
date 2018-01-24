@@ -59,6 +59,31 @@
             <intent-filter>
                 <action android:name="phg.com.automotiveoctoengine.SettingsActivity" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".CalibrateActivity"
+            android:label="@string/calibrate_page_title"
+            android:parentActivityName=".SettingsActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="phg.com.automotiveoctoengine.SettingsActivity" />
+
+            <intent-filter>
+                <action android:name="phg.com.automotiveoctoengine.CalibrateActivity" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".HistoryActivity"
+            android:label="@string/history_page_title"
+            android:parentActivityName=".HomeActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="phg.com.automotiveoctoengine.HomeActivity" />
+
 
         </activity>
     </application>
