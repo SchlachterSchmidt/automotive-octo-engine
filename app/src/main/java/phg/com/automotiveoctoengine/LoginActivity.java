@@ -13,7 +13,7 @@ public class LoginActivity extends AppCompatActivity {
     private static EditText username;
     private static EditText password;
     private static Button login_button;
-    private static Button button_register;
+    private static Button register_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         username = findViewById(R.id.editText_username);
         password = findViewById(R.id.editText_password);
         login_button = findViewById(R.id.button_login);
-        button_register = findViewById(R.id.button_register);
+        register_button = findViewById(R.id.button_register);
 
         login_button.setOnClickListener(
                 new View.OnClickListener() {
@@ -49,9 +49,9 @@ public class LoginActivity extends AppCompatActivity {
         );
     }
     public void RegisterButton() {
-        button_register = findViewById(R.id.button_register);
+        register_button = findViewById(R.id.button_register);
 
-        button_register.setOnClickListener(
+        register_button.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
