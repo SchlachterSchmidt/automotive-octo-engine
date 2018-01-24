@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="@string/login_page_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomeActivity"
+            android:name=".activities.HomeActivity"
             android:label="@string/home_page_title">
             <intent-filter>
                 <action android:name="phg.com.automotiveoctoengine.HomeActivity" />
@@ -33,56 +33,56 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activities.RegisterActivity"
             android:label="@string/register_page_title"
-            android:parentActivityName=".LoginActivity">
+            android:parentActivityName=".activities.LoginActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="phg.com.automotiveoctoengine.LoginActivity" />
+                android:value="phg.com.automotiveoctoengine.activities.LoginActivity" />
 
             <intent-filter>
                 <action android:name="phg.com.automotiveoctoengine.RegisterActivity" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/settings_page_title"
-            android:parentActivityName=".HomeActivity">
+            android:parentActivityName=".activities.HomeActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="phg.com.automotiveoctoengine.HomeActivity" />
+                android:value="phg.com.automotiveoctoengine.activities.HomeActivity" />
 
             <intent-filter>
                 <action android:name="phg.com.automotiveoctoengine.SettingsActivity" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".CalibrateActivity"
+            android:name=".activities.CalibrateActivity"
             android:label="@string/calibrate_page_title"
-            android:parentActivityName=".SettingsActivity">
+            android:parentActivityName=".activities.SettingsActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="phg.com.automotiveoctoengine.SettingsActivity" />
+                android:value="phg.com.automotiveoctoengine.activities.SettingsActivity" />
 
             <intent-filter>
                 <action android:name="phg.com.automotiveoctoengine.CalibrateActivity" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".HistoryActivity"
+            android:name=".activities.HistoryActivity"
             android:label="@string/history_page_title"
-            android:parentActivityName=".HomeActivity">
+            android:parentActivityName=".activities.HomeActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="phg.com.automotiveoctoengine.HomeActivity" />
+                android:value="phg.com.automotiveoctoengine.activities.HomeActivity" />
 
 
         </activity>

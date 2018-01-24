@@ -1,10 +1,12 @@
-package phg.com.automotiveoctoengine;
+package phg.com.automotiveoctoengine.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import phg.com.automotiveoctoengine.R;
 
 public class SettingsActivity extends AppCompatActivity {
 

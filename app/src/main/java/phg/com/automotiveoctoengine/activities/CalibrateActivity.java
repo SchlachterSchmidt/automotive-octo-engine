@@ -1,7 +1,9 @@
-package phg.com.automotiveoctoengine;
+package phg.com.automotiveoctoengine.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import phg.com.automotiveoctoengine.R;
 
 public class CalibrateActivity extends AppCompatActivity {
 
