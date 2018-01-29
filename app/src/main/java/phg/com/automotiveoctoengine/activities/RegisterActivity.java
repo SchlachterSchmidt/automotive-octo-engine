@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import phg.com.automotiveoctoengine.R;
+import phg.com.automotiveoctoengine.models.User;
+import phg.com.automotiveoctoengine.services.UserService;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -24,10 +26,11 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        submitButton();
+        register();
     }
 
-    public void submitButton() {
+    public void register() {
+
         first_name = findViewById(R.id.editText_first_name);
         last_name = findViewById(R.id.editText_last_name);
         email = findViewById(R.id.editText_email);
@@ -36,27 +39,29 @@ public class RegisterActivity extends AppCompatActivity {
         confirm_password = findViewById(R.id.editText_confirm_password);
         submit_button = findViewById(R.id.button_submit);
 
+        final UserService userService = new UserService(this);
+
         submit_button.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (    first_name.getText().toString().isEmpty() ||
-                                last_name.getText().toString().isEmpty() ||
-                                email.getText().toString().isEmpty() ||
-                                username.getText().toString().isEmpty() ||
-                                password.getText().toString().isEmpty() ||
-                                confirm_password.getText().toString().isEmpty() ) {
-                                    Toast.makeText(RegisterActivity.this,"Please fill in all fields",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            Toast.makeText(RegisterActivity.this,"Thanks for registering",
-                                    Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                        }
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    User user = new User();
+                    user.setFirst_name(first_name.getText().toString());
+                    user.setLast_name(last_name.getText().toString());
+                    user.setEmail(email.getText().toString());
+                    user.setUsername(username.getText().toString());
+                    user.setPassword(password.getText().toString());
+                    user.setConfirm_password(confirm_password.getText().toString());
+
+                    boolean successful = userService.register(user);
+
+                    if (successful) {
+                        Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+                        startActivity(intent);
                     }
                 }
+            }
         );
     }
 }

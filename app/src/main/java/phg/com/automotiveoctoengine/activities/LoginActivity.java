@@ -9,6 +9,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import phg.com.automotiveoctoengine.R;
+import phg.com.automotiveoctoengine.controllers.SharedPrefManager;
+import phg.com.automotiveoctoengine.models.User;
+import phg.com.automotiveoctoengine.services.UserService;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -21,46 +24,52 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        LoginButton();
-        RegisterButton();
+
+        //if the user is already logged in we will directly start the profile activity
+        if (SharedPrefManager.getInstance(this).isLoggedIn()) {
+            finish();
+            startActivity(new Intent(this, HomeActivity.class));
+            return;
+        }
+        login();
+        register();
     }
-    public void LoginButton(){
+    public void login(){
         username = findViewById(R.id.editText_username);
         password = findViewById(R.id.editText_password);
         login_button = findViewById(R.id.button_login);
         register_button = findViewById(R.id.button_register);
 
-        login_button.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (username.getText().toString().equals("user") &&
-                        password.getText().toString().equals("pass")){
-                            Toast.makeText(LoginActivity.this,"Username and password is correct",
-                                    Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                            startActivity(intent);
+        final UserService userService = new UserService(this);
 
-                        }
-                        else {
-                            Toast.makeText(LoginActivity.this,"Username and password is NOT correct",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+        login_button.setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    User protoUser = new User();
+                    protoUser.setUsername(username.getText().toString());
+                    protoUser.setPassword(password.getText().toString());
+                    boolean successful = userService.login(protoUser);
+                    if (successful) {
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(intent);
+
                     }
                 }
+            }
         );
     }
-    public void RegisterButton() {
+    public void register() {
         register_button = findViewById(R.id.button_register);
 
         register_button.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                        startActivity(intent);
-                    }
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                    startActivity(intent);
                 }
+            }
         );
     }
 }
