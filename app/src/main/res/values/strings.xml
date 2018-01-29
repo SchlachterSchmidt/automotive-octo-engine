@@ -30,5 +30,6 @@
     <string name="button_stop">Stop</string>
     <string name="button_calibrate">Calibrate</string>
     <string name="button_history">History</string>
+    <string name="button_logout">Logout</string>
 
 </resources>
