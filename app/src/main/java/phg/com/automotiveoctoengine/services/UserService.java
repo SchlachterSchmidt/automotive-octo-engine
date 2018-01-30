@@ -1,8 +1,6 @@
 package phg.com.automotiveoctoengine.services;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Toast;
 
 import phg.com.automotiveoctoengine.controllers.SharedPrefManager;
@@ -25,8 +23,8 @@ public class UserService {
 
         // Business logic goes here
 
-        if (    user.getFirst_name().isEmpty() ||
-                user.getLast_name().isEmpty() ||
+        if (    user.getFirstname().isEmpty() ||
+                user.getLastname().isEmpty() ||
                 user.getEmail().isEmpty() ||
                 user.getUsername().isEmpty() ||
                 user.getPassword().isEmpty() ||
@@ -58,13 +56,12 @@ public class UserService {
 
         }
     }
-    public void update(User user) {
-        // ToDo: update
-    }
 
     public boolean login(User protoUser) {
         UserDAO userDAO = new UserDAO();
         User currentUser = userDAO.login(protoUser);
+        // currentUser does not have plain text pw
+        currentUser.setPassword(protoUser.getPassword());
         if (currentUser != null) {
             SharedPrefManager.getInstance(context).login(currentUser);
             Toast.makeText(context, "Welcome back", Toast.LENGTH_SHORT).show();
@@ -76,5 +73,9 @@ public class UserService {
 
     public void logout() {
         SharedPrefManager.getInstance(context).logout();
+    }
+
+    public void update(User user) {
+        // ToDo: update
     }
 }

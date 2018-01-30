@@ -5,28 +5,28 @@ package phg.com.automotiveoctoengine.models;
  */
 
 public class User {
-    // ToDo: user fields
 
-    private String first_name;
-    private String last_name;
+    private int id;
+    private String firstname;
+    private String lastname;
     private String username;
     private String email;
     private String password;
-    private int id;
+
     private String confirm_password;
 
-    public String getFirst_name() { return first_name; }
+    public String getFirstname() { return firstname; }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getUsername() {
@@ -64,9 +64,9 @@ public class User {
     public User() {
     }
 
-    public User(String first_name, String last_name, String username, String email, String password) {
-        this.first_name = first_name;
-        this.last_name = last_name;
+    public User(String firstname, String lastname, String username, String email, String password) {
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.username = username;
         this.email = email;
         this.password = password;

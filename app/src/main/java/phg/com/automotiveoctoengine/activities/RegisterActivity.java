@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import phg.com.automotiveoctoengine.R;
 import phg.com.automotiveoctoengine.models.User;
@@ -47,8 +46,8 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onClick(View view) {
 
                     User user = new User();
-                    user.setFirst_name(first_name.getText().toString());
-                    user.setLast_name(last_name.getText().toString());
+                    user.setFirstname(first_name.getText().toString());
+                    user.setLastname(last_name.getText().toString());
                     user.setEmail(email.getText().toString());
                     user.setUsername(username.getText().toString());
                     user.setPassword(password.getText().toString());

@@ -3,7 +3,6 @@ package phg.com.automotiveoctoengine.controllers;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import phg.com.automotiveoctoengine.activities.LoginActivity;
 import phg.com.automotiveoctoengine.models.User;
@@ -39,11 +38,10 @@ public class SharedPrefManager {
     //method to let the user login
     //this method will store the user data in shared preferences
     public void login(User user) {
-        Log.d("debug SharedPrefEditor", "in login method");
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(KEY_FIRST_NAME, user.getFirst_name());
-        editor.putString(KEY_LAST_NAME, user.getLast_name());
+        editor.putString(KEY_FIRST_NAME, user.getFirstname());
+        editor.putString(KEY_LAST_NAME, user.getLastname());
         editor.putString(KEY_USERNAME, user.getUsername());
         editor.putString(KEY_EMAIL, user.getEmail());
         editor.putString(KEY_PASSWORD, user.getPassword());
