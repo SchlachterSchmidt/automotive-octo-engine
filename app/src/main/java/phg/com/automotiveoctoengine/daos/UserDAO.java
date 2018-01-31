@@ -53,11 +53,7 @@ public class UserDAO {
             if (!response.isSuccessful())
                 throw new IOException("Unexpected code " + response);
             return false;
-        } catch(java.io.IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch(IOException | ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         return true;
@@ -90,11 +86,7 @@ public class UserDAO {
 
             Log.d("Response body string", userJson);
             return user;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (InterruptedException | IOException | ExecutionException e) {
             e.printStackTrace();
         }
         return null;

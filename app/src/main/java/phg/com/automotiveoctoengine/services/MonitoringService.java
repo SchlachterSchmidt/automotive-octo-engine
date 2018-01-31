@@ -46,7 +46,7 @@ public class MonitoringService extends IntentService{
 
         // while monitoring is enabled, take pics at regular intervals
         monitoring = true;
-        while(monitoring==true) {
+        while(monitoring) {
             Log.d(" Monitoring", "is on");
             cameraController.takePicture();
             try {
@@ -56,7 +56,7 @@ public class MonitoringService extends IntentService{
             }
         }
 
-        if(monitoring==false) {
+        if(!monitoring) {
             cameraController.stopCamera();
             Log.d(" MonitoringService", "onHandleIntent after stop camera");
 
