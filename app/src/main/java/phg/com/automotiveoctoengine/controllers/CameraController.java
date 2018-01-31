@@ -1,9 +1,5 @@
 package phg.com.automotiveoctoengine.controllers;
 
-/**
- * Created by phg on 30/01/18.
- */
-
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -17,7 +13,7 @@ public class CameraController{
 
     // singleton CameraController class
     private static CameraController instance = null;
-    NotificationController nc = new NotificationController();
+    // NotificationController nc = new NotificationController();
 
     private Camera camera;
     private int cameraId;
@@ -36,6 +32,8 @@ public class CameraController{
     }
 
     private void getCamera() {
+        // moved into separate method as there are situations where we need to get the camera without
+        // calling the constructor
         cameraId = getCameraId();
         if (cameraId < 0)
             Toast.makeText(context, "No camera found", Toast.LENGTH_SHORT).show();
@@ -58,8 +56,23 @@ public class CameraController{
         this.context = context;
     }
 
-    public void startCamera() {
-        rollCamera();
+    public void takePicture() {
+        Log.d(" Camera Controller", " taking pic");
+        SurfaceTexture surfaceTexture = new SurfaceTexture(1);
+        try {
+            camera.setPreviewTexture(surfaceTexture);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        camera.startPreview();
+        // works on emulator and device
+        try {
+            camera.takePicture(null, null, new PhotoHandler(context));
+            //nc.redFlashLight(context);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void stopCamera() {
@@ -102,25 +115,5 @@ public class CameraController{
         parameters.setPictureSize(PIC_WIDTH, PIC_HEIGHT);
         parameters.setFlashMode(FLASH_OFF);
         camera.setParameters(parameters);
-    }
-
-    private void rollCamera() {
-        Log.d(" Monitoring Controller", " taking pic");
-        SurfaceTexture surfaceTexture = new SurfaceTexture(1);
-        try {
-            camera.setPreviewTexture(surfaceTexture);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        camera.startPreview();
-
-        // works on emulator and device
-        try {
-            camera.takePicture(null, null, new PhotoHandler(context));
-            nc.redFlashLight(context);
-        } catch (Exception e) {
-            Toast.makeText(context, "not able to take picture", Toast.LENGTH_SHORT).show();
-        }
     }
 }

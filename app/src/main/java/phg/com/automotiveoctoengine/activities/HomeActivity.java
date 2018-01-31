@@ -6,11 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import phg.com.automotiveoctoengine.R;
-import phg.com.automotiveoctoengine.controllers.CameraController;
 import phg.com.automotiveoctoengine.services.MonitoringService;
 
 public class HomeActivity extends AppCompatActivity {
@@ -79,21 +77,27 @@ public class HomeActivity extends AppCompatActivity {
         );
     }
 
-    /*@Override
+    @Override
     protected void onPause() {
-        cameraController.releaseCamera();
+        Intent sIntent = new Intent();
+        sIntent.setAction(MonitoringService.PauseReceiver.ACTION_PAUSE);
+        sendBroadcast(sIntent);
         super.onPause();
     }
 
     @Override
-    protected void onResume() {
-        cameraController.retakeCamera();
-        super.onResume();
+    protected void onStop() {
+        Intent sIntent = new Intent();
+        sIntent.setAction(MonitoringService.PauseReceiver.ACTION_PAUSE);
+        sendBroadcast(sIntent);
+        super.onStop();
     }
 
     @Override
-    protected void onStop() {
-        cameraController.releaseCamera();
-        super.onStop();
-    }*/
+    protected void onResume() {
+        Intent sIntent = new Intent();
+        sIntent.setAction(MonitoringService.ResumeReceiver.ACTION_RESUME);
+        sendBroadcast(sIntent);
+        super.onResume();
+    }
 }

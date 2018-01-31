@@ -4,15 +4,11 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 
-
-/**
- * Created by phg on 31/01/18.
- */
-
 public class NotificationController {
 
     private static final int LED_NOTIFICATION_ID= 0; //arbitrary constant
 
+    // currently not working
     public void redFlashLight(Context context) {
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notif = new Notification();
