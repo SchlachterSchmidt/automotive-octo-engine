@@ -7,10 +7,6 @@ import phg.com.automotiveoctoengine.controllers.SharedPrefManager;
 import phg.com.automotiveoctoengine.daos.UserDAO;
 import phg.com.automotiveoctoengine.models.User;
 
-/**
- * Created by phg on 28/01/18.
- */
-
 public class UserService {
 
     private Context context;
@@ -60,9 +56,9 @@ public class UserService {
     public boolean login(User protoUser) {
         UserDAO userDAO = new UserDAO();
         User currentUser = userDAO.login(protoUser);
-        // currentUser does not have plain text pw
-        currentUser.setPassword(protoUser.getPassword());
         if (currentUser != null) {
+            // currentUser does not have plain text pw
+            currentUser.setPassword(protoUser.getPassword());
             SharedPrefManager.getInstance(context).login(currentUser);
             Toast.makeText(context, "Welcome back", Toast.LENGTH_SHORT).show();
             return true;

@@ -10,15 +10,20 @@ import android.util.Log;
 import android.widget.Toast;
 
 import phg.com.automotiveoctoengine.controllers.CameraController;
+import phg.com.automotiveoctoengine.daos.MonitoringDAO;
+import phg.com.automotiveoctoengine.models.Classification;
 
 import static java.lang.Thread.sleep;
 
-public class MonitoringService extends IntentService{
+public class MonitoringService extends IntentService {
 
-    private boolean monitoring = false;
     // dummy value, will be the selected frequency from shared preferences
-    private int frequency = 1000;
-    final CameraController cameraController = CameraController.getInstance();
+    private final int frequency = 3000;
+    private boolean monitoring = false;
+
+
+    private final CameraController cameraController = CameraController.getInstance();
+    private final MonitoringDAO monitoringDAO = new MonitoringDAO();
 
     public MonitoringService() {
         super("MonitoringService");
@@ -26,17 +31,16 @@ public class MonitoringService extends IntentService{
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(" MonitoringService", "onHandleIntent beginning");
-        // Context context = getApplicationContext();
         cameraController.setContext(getApplicationContext());
+
+        Handler mHandler = new Handler(getMainLooper());
 
         IntentFilter filter = new IntentFilter(StopReceiver.ACTION_STOP);
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         StopReceiver receiver = new StopReceiver();
         registerReceiver(receiver, filter);
-        Log.d(" MonitoringService", "onHandleIntent after start camera");
 
-        Handler mHandler = new Handler(getMainLooper());
+
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -47,8 +51,9 @@ public class MonitoringService extends IntentService{
         // while monitoring is enabled, take pics at regular intervals
         monitoring = true;
         while(monitoring) {
-            Log.d(" Monitoring", "is on");
-            cameraController.takePicture();
+            String imagePath = cameraController.takePicture();
+            Log.d(" MONITORING SERVICE IMG", imagePath);
+            Classification classification = monitoringDAO.classify(getApplicationContext(), imagePath);
             try {
                 sleep(frequency);
             } catch (InterruptedException e) {
@@ -58,8 +63,6 @@ public class MonitoringService extends IntentService{
 
         if(!monitoring) {
             cameraController.stopCamera();
-            Log.d(" MonitoringService", "onHandleIntent after stop camera");
-
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {

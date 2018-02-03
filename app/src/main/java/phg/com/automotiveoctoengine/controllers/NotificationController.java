@@ -4,7 +4,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 
-public class NotificationController {
+class NotificationController {
 
     private static final int LED_NOTIFICATION_ID= 0; //arbitrary constant
 

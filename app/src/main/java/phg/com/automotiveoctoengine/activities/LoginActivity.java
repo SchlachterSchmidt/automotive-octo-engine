@@ -14,10 +14,10 @@ import phg.com.automotiveoctoengine.services.UserService;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static EditText username;
-    private static EditText password;
-    private static Button login_button;
-    private static Button register_button;
+    private EditText username;
+    private EditText password;
+    private Button login_button;
+    private Button register_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         login();
         register();
     }
-    public void login(){
+    private void login(){
         username = findViewById(R.id.editText_username);
         password = findViewById(R.id.editText_password);
         login_button = findViewById(R.id.button_login);
@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         );
     }
-    public void register() {
+    private void register() {
         register_button = findViewById(R.id.button_register);
 
         register_button.setOnClickListener(

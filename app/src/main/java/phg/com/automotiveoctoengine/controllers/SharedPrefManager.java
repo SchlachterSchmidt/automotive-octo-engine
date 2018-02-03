@@ -7,10 +7,6 @@ import android.content.SharedPreferences;
 import phg.com.automotiveoctoengine.activities.LoginActivity;
 import phg.com.automotiveoctoengine.models.User;
 
-/**
- * Created by phg on 29/01/18.
- */
-
 public class SharedPrefManager {
 
     //the constants

@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
         register();
     }
 
-    public void register() {
+    private void register() {
 
         first_name = findViewById(R.id.editText_first_name);
         last_name = findViewById(R.id.editText_last_name);

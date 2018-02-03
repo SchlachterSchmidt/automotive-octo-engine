@@ -12,12 +12,15 @@ import android.hardware.Camera.PictureCallback;
 import android.os.Environment;
 import android.widget.Toast;
 
-public class PhotoHandler implements PictureCallback {
+class PhotoHandler implements PictureCallback {
 
     private final Context context;
+    private final OnPictureSavedListener picTakenListener;
 
-    public PhotoHandler(Context context) {
+    public PhotoHandler(Context context, OnPictureSavedListener listener) {
         this.context = context;
+        this.picTakenListener = listener;
+
     }
 
     @Override
@@ -46,6 +49,10 @@ public class PhotoHandler implements PictureCallback {
             fos.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        if(picTakenListener != null) {
+            picTakenListener.onPictureSaved(pictureFile.getAbsolutePath());
         }
     }
 

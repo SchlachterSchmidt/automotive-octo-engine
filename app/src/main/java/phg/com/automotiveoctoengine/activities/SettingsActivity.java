@@ -11,9 +11,9 @@ import phg.com.automotiveoctoengine.services.UserService;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private static Button calibrate_button;
-    private static Button logout_button;
-    final UserService userService = new UserService(this);
+    private Button calibrate_button;
+    private Button logout_button;
+    private final UserService userService = new UserService(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    public void calibrate() {
+    private void calibrate() {
         calibrate_button = findViewById(R.id.button_calibrate);
 
         calibrate_button.setOnClickListener(
@@ -38,7 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
         );
     }
 
-    public void logout() {
+    private void logout() {
         logout_button = findViewById(R.id.button_logout);
 
         logout_button.setOnClickListener(

@@ -9,22 +9,17 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-public class CameraController{
+import static java.lang.Thread.sleep;
+
+public class CameraController implements OnPictureSavedListener{
 
     // singleton CameraController class
     private static CameraController instance = null;
     // NotificationController nc = new NotificationController();
 
     private Camera camera;
-    private int cameraId;
+    private String imagePath = "null";
     private Context context;
-
-    // dummy values - to be replaced with the settings in shared preferences file
-    private final int USE_CAMERA = 1;           // 1 for front camera, 0 for back camera
-    private final int JPEG_COMPRESSION = 50;   // 100 = no compression, 1 maximum compression
-    private final int PIC_WIDTH = 500;          // picture width in pixels
-    private final int PIC_HEIGHT = 500;         // picture height in pixels
-    private final String FLASH_OFF = "FLASH_MODE_OFF";
 
     private CameraController() {
         getCamera();
@@ -34,7 +29,7 @@ public class CameraController{
     private void getCamera() {
         // moved into separate method as there are situations where we need to get the camera without
         // calling the constructor
-        cameraId = getCameraId();
+        int cameraId = getCameraId();
         if (cameraId < 0)
             Toast.makeText(context, "No camera found", Toast.LENGTH_SHORT).show();
         else {
@@ -56,8 +51,8 @@ public class CameraController{
         this.context = context;
     }
 
-    public void takePicture() {
-        Log.d(" Camera Controller", " taking pic");
+    public String takePicture()  {
+        PhotoHandler photoHandler = new PhotoHandler(context, CameraController.this);
         SurfaceTexture surfaceTexture = new SurfaceTexture(1);
         try {
             camera.setPreviewTexture(surfaceTexture);
@@ -68,11 +63,20 @@ public class CameraController{
         camera.startPreview();
         // works on emulator and device
         try {
-            camera.takePicture(null, null, new PhotoHandler(context));
+            camera.takePicture(null, null, photoHandler);
+            // Log.d(" PICTURE PATH", imagePath);
             //nc.redFlashLight(context);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        // ToDo: sort this unsynchronized shit out... this is the ugliest possible hackaround
+        try {
+            sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return imagePath;
     }
 
     public void stopCamera() {
@@ -98,6 +102,7 @@ public class CameraController{
         for (int i = 0; i < numberOfCameras; i++) {
             CameraInfo info = new CameraInfo();
             Camera.getCameraInfo(i, info);
+            int USE_CAMERA = 1;
             if (info.facing == USE_CAMERA) {
                 cameraId = i;
                 break;
@@ -111,9 +116,23 @@ public class CameraController{
     private void setCameraPreferences() {
         if (camera == null) getCamera();
         Camera.Parameters parameters = camera.getParameters();
+        int JPEG_COMPRESSION = 50;
+        int PIC_WIDTH = 500;
+        int PIC_HEIGHT = 500;
+        String FLASH_OFF = "FLASH_MODE_OFF";
+
         parameters.setJpegQuality(JPEG_COMPRESSION);
         parameters.setPictureSize(PIC_WIDTH, PIC_HEIGHT);
         parameters.setFlashMode(FLASH_OFF);
         camera.setParameters(parameters);
     }
+
+    @Override
+    public void onPictureSaved(String imagePath) {
+        if (imagePath != null && !imagePath.equals("")) {
+            this.imagePath = imagePath;
+            Log.d(" ON PICTURE SAVED", imagePath);
+        }
+    }
+
 }

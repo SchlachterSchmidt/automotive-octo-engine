@@ -21,7 +21,7 @@ import phg.com.automotiveoctoengine.models.User;
 
 public class UserDAO {
 
-    OkHttpHandler okHttpHandler = new OkHttpHandler();
+    private final OkHttpHandler okHttpHandler = new OkHttpHandler();
 
     // Register a new user
     public boolean register(User user) {
@@ -52,11 +52,11 @@ public class UserDAO {
             // String serverResponse = response.body().string();
             if (!response.isSuccessful())
                 throw new IOException("Unexpected code " + response);
-            return false;
+            return true;
         } catch(IOException | ExecutionException | InterruptedException e) {
             e.printStackTrace();
+            return false;
         }
-        return true;
     }
 
     // Login user

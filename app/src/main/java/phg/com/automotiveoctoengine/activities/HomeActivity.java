@@ -13,9 +13,7 @@ import phg.com.automotiveoctoengine.services.MonitoringService;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private static Button settings_button;
-    private static Button history_button;
-    private static ToggleButton toggle_monitor_button;
+    private ToggleButton toggle_monitor_button;
 
     Context context = this;
 
@@ -30,8 +28,8 @@ public class HomeActivity extends AppCompatActivity {
         monitor();
     }
 
-    public void settings() {
-        settings_button = findViewById(R.id.button_settings);
+    private void settings() {
+        Button settings_button = findViewById(R.id.button_settings);
         settings_button.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -43,8 +41,8 @@ public class HomeActivity extends AppCompatActivity {
         );
     }
 
-    public void history() {
-        history_button = findViewById(R.id.button_history);
+    private void history() {
+        Button history_button = findViewById(R.id.button_history);
         history_button.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -57,7 +55,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    public void monitor() {
+    private void monitor() {
         toggle_monitor_button = findViewById(R.id.toggleButton_monitor);
         toggle_monitor_button.setOnClickListener(
                 new View.OnClickListener() {
