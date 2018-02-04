@@ -24,6 +24,7 @@ public class MonitoringService extends IntentService {
 
     private final CameraController cameraController = CameraController.getInstance();
     private final MonitoringDAO monitoringDAO = new MonitoringDAO();
+    private FeedbackService feedbackService = new FeedbackService(this);
 
     public MonitoringService() {
         super("MonitoringService");
@@ -33,6 +34,7 @@ public class MonitoringService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         cameraController.setContext(getApplicationContext());
 
+        // mHandler allows to send Toasts to the HomeActivity
         Handler mHandler = new Handler(getMainLooper());
 
         IntentFilter filter = new IntentFilter(StopReceiver.ACTION_STOP);
@@ -52,8 +54,8 @@ public class MonitoringService extends IntentService {
         monitoring = true;
         while(monitoring) {
             String imagePath = cameraController.takePicture();
-            Log.d(" MONITORING SERVICE IMG", imagePath);
             Classification classification = monitoringDAO.classify(getApplicationContext(), imagePath);
+            feedbackService.prepareFeedback(classification);
             try {
                 sleep(frequency);
             } catch (InterruptedException e) {
