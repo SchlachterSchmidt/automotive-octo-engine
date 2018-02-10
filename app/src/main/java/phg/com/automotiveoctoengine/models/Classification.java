@@ -5,10 +5,10 @@ public class Classification {
     private double confidence;
     private String filename;
     private int prediction;
-    private double[] probabilities;
-    private double score;
+    private float[] probabilities;
+    private float score;
 
-    public Classification(int confidence, String filename, int prediction, double[] probabilities, double score) {
+    public Classification(int confidence, String filename, int prediction, float[] probabilities, float score) {
         this.confidence = confidence;
         this.filename = filename;
         this.prediction = prediction;
@@ -40,15 +40,15 @@ public class Classification {
         this.prediction = prediction;
     }
 
-    public double[] getProbabilities() {
+    public float[] getProbabilities() {
         return probabilities;
     }
 
-    public void setProbabilities(double[] probabilities) {
+    public void setProbabilities(float[] probabilities) {
         this.probabilities = probabilities;
     }
 
-    public double getScore() {
+    public float getScore() {
         return score;
     }
 
