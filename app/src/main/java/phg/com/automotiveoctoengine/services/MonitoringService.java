@@ -42,7 +42,6 @@ public class MonitoringService extends IntentService {
         StopReceiver receiver = new StopReceiver();
         registerReceiver(receiver, filter);
 
-
         mHandler.post(new Runnable() {
             @Override
             public void run() {

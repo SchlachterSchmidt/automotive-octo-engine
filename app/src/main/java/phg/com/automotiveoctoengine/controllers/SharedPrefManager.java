@@ -3,6 +3,10 @@ package phg.com.automotiveoctoengine.controllers;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import phg.com.automotiveoctoengine.activities.LoginActivity;
 import phg.com.automotiveoctoengine.models.User;
@@ -16,6 +20,8 @@ public class SharedPrefManager {
     private static final String KEY_USERNAME = "key_username";
     private static final String KEY_EMAIL = "key_email";
     private static final String KEY_PASSWORD = "key_password";
+    private static final String KEY_ATTN_SCORE = "key_attn_score";
+    private static final String KEY_LAST_CLASSIFICATION = "key_last_classification";
 
     private static SharedPrefManager mInstance;
     private static Context mCtx;
@@ -44,13 +50,12 @@ public class SharedPrefManager {
         editor.apply();
     }
 
-    //this method will checker whether user is already logged in or not
+    //check whether user is already logged in
     public boolean isLoggedIn() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_USERNAME, null) != null;
     }
 
-    //this method will give the logged in user
     public User getUser() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return new User(
@@ -62,12 +67,37 @@ public class SharedPrefManager {
         );
     }
 
-    //this method will logout the user
+    //log the user out
     public void logout() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
         mCtx.startActivity(new Intent(mCtx, LoginActivity.class));
+    }
+
+    public void setAttentionScore(float score) {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+
+        editor.putFloat(KEY_ATTN_SCORE, score);
+        editor.putString(KEY_LAST_CLASSIFICATION, timeStamp);
+        editor.apply();
+    }
+
+    public float getAttentionScore() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        String lastClassTime = sharedPreferences.getString(KEY_LAST_CLASSIFICATION, "1");
+        String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+
+        Log.d("SPM last class time", lastClassTime);
+        Log.d("SPM curr time", currentTime);
+        // return the current attention score, or 1 if the last classification is more than 1800 seconds (30 minutes ago)
+        if ( (Long.parseLong(currentTime) - Long.parseLong(lastClassTime) ) > 1800) {
+            Log.d("SPM ", "no classification found for the past 30 min");
+            return 1;
+        }
+        else return sharedPreferences.getFloat(KEY_ATTN_SCORE, 1);
     }
 }

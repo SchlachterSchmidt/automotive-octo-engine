@@ -30,16 +30,15 @@ public class MonitoringDAO {
     public Classification classify(Context context, String imagePath) {
         User currentUser = SharedPrefManager.getInstance(context).getUser();
         String credential = Credentials.basic(currentUser.getUsername(), currentUser.getPassword());
+        float currentScore = SharedPrefManager.getInstance(context).getAttentionScore();
 
-        Log.d(" FILE PATH", imagePath);
         File file = new File(imagePath);
-        Log.d(" OPENED FILE", file.getName());
 
         RequestBody body = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("data", file.getName(),
                         RequestBody.create(MediaType.parse("image/jpeg"), file))
-                .addFormDataPart("prev_score", "1")
+                .addFormDataPart("prev_score", String.valueOf(currentScore))
                 .build();
 
         final Request request = new Request.Builder()
