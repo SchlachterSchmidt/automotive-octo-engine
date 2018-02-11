@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="phg.com.automotiveoctoengine">
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -12,7 +11,6 @@
         android:name="android.hardware.camera.front"
         android:required="false" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,7 +23,6 @@
             android:label="@string/login_page_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -34,7 +31,6 @@
             android:label="@string/home_page_title">
             <intent-filter>
                 <action android:name="phg.com.automotiveoctoengine.HomeActivity" />
-
                 <category android:name="android.intent.category.default" />
             </intent-filter>
         </activity>
@@ -42,12 +38,10 @@
             android:name=".activities.RegisterActivity"
             android:label="@string/register_page_title"
             android:parentActivityName=".activities.LoginActivity">
-
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="phg.com.automotiveoctoengine.activities.LoginActivity" />
-
             <intent-filter>
                 <action android:name="phg.com.automotiveoctoengine.RegisterActivity" />
             </intent-filter>
@@ -56,12 +50,10 @@
             android:name=".activities.SettingsActivity"
             android:label="@string/settings_page_title"
             android:parentActivityName=".activities.HomeActivity">
-
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="phg.com.automotiveoctoengine.activities.HomeActivity" />
-
             <intent-filter>
                 <action android:name="phg.com.automotiveoctoengine.SettingsActivity" />
             </intent-filter>
@@ -70,12 +62,10 @@
             android:name=".activities.CalibrateActivity"
             android:label="@string/calibrate_page_title"
             android:parentActivityName=".activities.SettingsActivity">
-
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="phg.com.automotiveoctoengine.activities.SettingsActivity" />
-
             <intent-filter>
                 <action android:name="phg.com.automotiveoctoengine.CalibrateActivity" />
             </intent-filter>
@@ -84,23 +74,14 @@
             android:name=".activities.HistoryActivity"
             android:label="@string/history_page_title"
             android:parentActivityName=".activities.HomeActivity">
-
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="phg.com.automotiveoctoengine.activities.HomeActivity" />
-
-
         </activity>
-
-        <!--
-         Because android:exported is set to "false",
-        the service is only available to this app.
-        -->
+        <!-- Because android:exported is set to "false", the service is only available to this app-->
         <service
             android:name=".services.MonitoringService"
             android:exported="false"/>
-
     </application>
-
 </manifest>
