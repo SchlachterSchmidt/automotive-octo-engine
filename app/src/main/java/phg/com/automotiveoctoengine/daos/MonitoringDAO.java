@@ -15,29 +15,28 @@ import okhttp3.MultipartBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
 import phg.com.automotiveoctoengine.controllers.OkHttpHandler;
 import phg.com.automotiveoctoengine.controllers.SharedPrefManager;
 import phg.com.automotiveoctoengine.controllers.URLs;
 import phg.com.automotiveoctoengine.models.Classification;
 import phg.com.automotiveoctoengine.models.User;
 
-
 public class MonitoringDAO {
 
+    public Classification classify(Context context, String imagePath) throws IOException {
 
-    private Gson gson = new Gson();
-
-    public Classification classify(Context context, String imagePath) {
         User currentUser = SharedPrefManager.getInstance(context).getUser();
-        String credential = Credentials.basic(currentUser.getUsername(), currentUser.getPassword());
         float currentScore = SharedPrefManager.getInstance(context).getAttentionScore();
+        String credential = Credentials.basic(currentUser.getUsername(), currentUser.getPassword());
 
+        Gson gson = new Gson();
         File file = new File(imagePath);
+        OkHttpHandler okHttpHandler = new OkHttpHandler(context);
 
         RequestBody body = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("data", file.getName(),
-                        RequestBody.create(MediaType.parse("image/jpeg"), file))
+                .addFormDataPart("data", file.getName(), RequestBody.create(MediaType.parse("image/jpeg"), file))
                 .addFormDataPart("prev_score", String.valueOf(currentScore))
                 .build();
 
@@ -50,22 +49,16 @@ public class MonitoringDAO {
                 .build();
 
         try {
-            OkHttpHandler okHttpHandler = new OkHttpHandler();
             Response response = okHttpHandler.execute(request).get();
-            String responseJson = response.body().string();
-
-            if (!response.isSuccessful()) {
-                Log.d("Response body string", responseJson);
-                throw new IOException(" Unexpected code " + response);
+            if (response == null || !response.isSuccessful()) {
+                throw new IOException("Unexpected response");
             }
 
-            Log.d(" MONITORINGDAO response", responseJson);
-            Classification classification = gson.fromJson(responseJson ,Classification.class);
-
-            return classification;
+            String responseJson = response.body().string();
+            Log.d("MonitoringDAO response", responseJson);
+            return gson.fromJson(responseJson ,Classification.class);
         } catch (InterruptedException | IOException | ExecutionException e) {
-            e.printStackTrace();
+            throw new IOException(e.getMessage());
         }
-        return null;
     }
 }

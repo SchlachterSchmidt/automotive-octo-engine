@@ -9,6 +9,9 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+
 import phg.com.automotiveoctoengine.controllers.CameraController;
 import phg.com.automotiveoctoengine.daos.MonitoringDAO;
 import phg.com.automotiveoctoengine.models.Classification;
@@ -20,7 +23,6 @@ public class MonitoringService extends IntentService {
     // dummy value, will be the selected frequency from shared preferences
     private final int frequency = 3000;
     private boolean monitoring = false;
-
 
     private final CameraController cameraController = CameraController.getInstance();
     private final MonitoringDAO monitoringDAO = new MonitoringDAO();
@@ -34,42 +36,29 @@ public class MonitoringService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         cameraController.setContext(getApplicationContext());
 
-        // mHandler allows to send Toasts to the HomeActivity
-        Handler mHandler = new Handler(getMainLooper());
-
-        IntentFilter filter = new IntentFilter(StopReceiver.ACTION_STOP);
-        filter.addCategory(Intent.CATEGORY_DEFAULT);
+        makeToast("Monitoring started");
         StopReceiver receiver = new StopReceiver();
-        registerReceiver(receiver, filter);
-
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "Monitoring started", Toast.LENGTH_SHORT).show();
-            }
-        });
+        registerReceiver(receiver, new IntentFilter(StopReceiver.ACTION_STOP));
 
         // while monitoring is enabled, take pics at regular intervals
         monitoring = true;
         while(monitoring) {
             String imagePath = cameraController.takePicture();
-            Classification classification = monitoringDAO.classify(getApplicationContext(), imagePath);
-            feedbackService.prepareFeedback(classification);
             try {
+                Classification classification = monitoringDAO.classify(getApplicationContext(), imagePath);
+                // if (classification.isEmpty()) {
+                    feedbackService.prepareFeedback(classification);
+                //}
                 sleep(frequency);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
+                makeToast("Network error");
             }
         }
 
         if(!monitoring) {
             cameraController.stopCamera();
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "Monitoring stopped", Toast.LENGTH_SHORT).show();
-                }
-            });
+            makeToast("Monitoring stopped");
             unregisterReceiver(receiver);
             stopSelf();
         }
@@ -100,5 +89,16 @@ public class MonitoringService extends IntentService {
         public void onReceive(Context context, Intent intent) {
             cameraController.retakeCamera();
         }
+    }
+
+    private void makeToast(final String message) {
+        // handler allows to send Toasts to the HomeActivity
+        Handler handler = new Handler(getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

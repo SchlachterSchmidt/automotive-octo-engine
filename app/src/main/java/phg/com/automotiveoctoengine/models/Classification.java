@@ -55,4 +55,9 @@ public class Classification {
     public void setScore(int score) {
         this.score = score;
     }
+
+    public boolean isEmpty() {
+        if (filename == null || filename == "") return true;
+        else return false;
+    }
 }

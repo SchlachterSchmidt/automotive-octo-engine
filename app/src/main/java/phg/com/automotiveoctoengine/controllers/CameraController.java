@@ -66,7 +66,6 @@ public class CameraController implements OnPictureSavedListener {
         // works on emulator and device
         try {
             camera.takePicture(null, null, photoHandler);
-            // Log.d(" PICTURE PATH", imagePath);
             //nc.redFlashLight(context);
         } catch (Exception e) {
             e.printStackTrace();
@@ -133,8 +132,6 @@ public class CameraController implements OnPictureSavedListener {
     public void onPictureSaved(String imagePath) {
         if (imagePath != null && !imagePath.equals("")) {
             this.imagePath = imagePath;
-            Log.d(" ON PICTURE SAVED", imagePath);
         }
     }
-
 }

@@ -135,7 +135,6 @@ public class HomeActivity extends AppCompatActivity {
         public static final String ACTION_UPDATE = "update";
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d(" HomeActivity", " onReceive");
             String colorString;
 
             Bundle extras = intent.getExtras();
