@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import phg.com.automotiveoctoengine.Interfaces.NetworkStateListener;
@@ -33,6 +34,7 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public void onNetworkUnavailable() {
             toggle_monitor_button.setEnabled(false);
+            Toast.makeText(context, "No network available", Toast.LENGTH_SHORT).show();
         }
     });
 
@@ -42,10 +44,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         registerReceiver(networkStateReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-
-        final IntentFilter filter = new IntentFilter(UpdateDisplayReceiver.ACTION_UPDATE);
-        filter.addCategory(Intent.CATEGORY_DEFAULT);
-        registerReceiver(updateDisplayReceiver, filter);
+        registerReceiver(updateDisplayReceiver, new IntentFilter(UpdateDisplayReceiver.ACTION_UPDATE));
 
         settings();
         history();
