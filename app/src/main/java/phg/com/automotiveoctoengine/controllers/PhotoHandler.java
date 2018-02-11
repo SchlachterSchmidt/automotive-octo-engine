@@ -12,6 +12,8 @@ import android.hardware.Camera.PictureCallback;
 import android.os.Environment;
 import android.widget.Toast;
 
+import phg.com.automotiveoctoengine.Interfaces.OnPictureSavedListener;
+
 class PhotoHandler implements PictureCallback {
 
     private final Context context;

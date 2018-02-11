@@ -1,4 +1,4 @@
-package phg.com.automotiveoctoengine.controllers;
+package phg.com.automotiveoctoengine.Interfaces;
 
 public interface OnPictureSavedListener {
 

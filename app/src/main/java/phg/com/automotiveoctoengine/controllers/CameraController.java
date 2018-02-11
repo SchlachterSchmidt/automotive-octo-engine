@@ -9,9 +9,11 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import phg.com.automotiveoctoengine.Interfaces.OnPictureSavedListener;
+
 import static java.lang.Thread.sleep;
 
-public class CameraController implements OnPictureSavedListener{
+public class CameraController implements OnPictureSavedListener {
 
     // singleton CameraController class
     private static CameraController instance = null;
