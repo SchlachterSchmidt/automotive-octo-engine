@@ -1,6 +1,6 @@
 package phg.com.automotiveoctoengine.controllers;
 
-interface OnPictureSavedListener {
+public interface OnPictureSavedListener {
 
     void onPictureSaved(String imagePath);
 }
