@@ -1,5 +1,6 @@
 package phg.com.automotiveoctoengine.services;
 
+import android.accounts.NetworkErrorException;
 import android.app.IntentService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -50,9 +51,9 @@ public class MonitoringService extends IntentService {
                     feedbackService.prepareFeedback(classification);
                 //}
                 sleep(frequency);
-            } catch (InterruptedException | IOException e) {
+            } catch (InterruptedException | IOException | NetworkErrorException e) {
                 e.printStackTrace();
-                makeToast("Network error");
+                makeToast("An error occurred");
             }
         }
 

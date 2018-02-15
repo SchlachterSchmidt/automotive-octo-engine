@@ -1,5 +1,6 @@
 package phg.com.automotiveoctoengine.daos;
 
+import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.util.Log;
 
@@ -24,7 +25,7 @@ import phg.com.automotiveoctoengine.models.User;
 
 public class MonitoringDAO {
 
-    public Classification classify(Context context, String imagePath) throws IOException {
+    public Classification classify(Context context, String imagePath) throws IOException, NetworkErrorException {
 
         User currentUser = SharedPrefManager.getInstance(context).getUser();
         float currentScore = SharedPrefManager.getInstance(context).getAttentionScore();
@@ -50,8 +51,11 @@ public class MonitoringDAO {
 
         try {
             Response response = okHttpHandler.execute(request).get();
-            if (response == null || !response.isSuccessful()) {
-                throw new IOException("Unexpected response");
+            if (response == null) {
+                throw new NetworkErrorException("No response from server");
+            }
+            if (!response.isSuccessful()) {
+                throw new NetworkErrorException("Message received by server but not processed");
             }
 
             String responseJson = response.body().string();
