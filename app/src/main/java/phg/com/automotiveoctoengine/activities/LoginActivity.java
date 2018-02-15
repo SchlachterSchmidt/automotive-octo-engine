@@ -1,5 +1,6 @@
 package phg.com.automotiveoctoengine.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,7 +40,8 @@ public class LoginActivity extends AppCompatActivity {
         login_button = findViewById(R.id.button_login);
         register_button = findViewById(R.id.button_register);
 
-        final UserService userService = new UserService(this);
+        final Context context = this;
+        final UserService userService = new UserService(context);
 
         login_button.setOnClickListener(
             new View.OnClickListener() {
@@ -52,12 +54,12 @@ public class LoginActivity extends AppCompatActivity {
                     if (successful) {
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
-
                     }
                 }
             }
         );
     }
+
     private void register() {
         register_button = findViewById(R.id.button_register);
 
