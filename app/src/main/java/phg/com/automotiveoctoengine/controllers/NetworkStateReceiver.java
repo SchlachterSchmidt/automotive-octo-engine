@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import phg.com.automotiveoctoengine.Interfaces.NetworkStateListener;
+import phg.com.automotiveoctoengine.interfaces.NetworkStateListener;
 
 public class NetworkStateReceiver extends BroadcastReceiver {
 

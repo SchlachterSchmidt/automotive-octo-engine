@@ -9,12 +9,12 @@ import android.util.Log;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import phg.com.automotiveoctoengine.Interfaces.NetworkStateListener;
+import phg.com.automotiveoctoengine.interfaces.NetworkStateListener;
 
 public class OkHttpHandler extends AsyncTask<Request, Void, Response> {
 
-    Context context;
-    boolean networkAvailable = true;
+    private Context context;
+    private boolean networkAvailable = true;
 
     public OkHttpHandler(Context context) {
         this.context = context;

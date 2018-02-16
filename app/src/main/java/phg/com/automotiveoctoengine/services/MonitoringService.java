@@ -7,11 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 
 import phg.com.automotiveoctoengine.controllers.CameraController;
 import phg.com.automotiveoctoengine.daos.MonitoringDAO;

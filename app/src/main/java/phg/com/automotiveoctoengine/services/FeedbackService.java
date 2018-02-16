@@ -9,12 +9,12 @@ import phg.com.automotiveoctoengine.activities.HomeActivity;
 import phg.com.automotiveoctoengine.controllers.SharedPrefManager;
 import phg.com.automotiveoctoengine.models.Classification;
 
-public class FeedbackService {
+class FeedbackService {
 
-    Context context;
-    static final String COLOR_OK = "#00ff00"; // hex value of green
-    static final String COLOR_WARN = "#FF9900"; // hex value of amber
-    static final String COLOR_NOK = "#CC0000"; // hex value of red
+    private Context context;
+    private static final String COLOR_OK = "#00ff00"; // hex value of green
+    private static final String COLOR_WARN = "#FF9900"; // hex value of amber
+    private static final String COLOR_NOK = "#CC0000"; // hex value of red
 
     public FeedbackService(Context context) {
         this.context = context;

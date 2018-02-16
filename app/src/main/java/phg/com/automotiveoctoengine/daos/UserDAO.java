@@ -19,7 +19,7 @@ import phg.com.automotiveoctoengine.models.User;
 
 public class UserDAO {
 
-    Context context;
+    private Context context;
 
     public UserDAO(Context context) {
         this.context = context;

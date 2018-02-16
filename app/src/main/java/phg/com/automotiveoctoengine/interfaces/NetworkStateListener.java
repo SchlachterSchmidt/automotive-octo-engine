@@ -1,4 +1,4 @@
-package phg.com.automotiveoctoengine.Interfaces;
+package phg.com.automotiveoctoengine.interfaces;
 
 public interface NetworkStateListener {
 

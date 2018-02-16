@@ -9,8 +9,4 @@ public class HistoryResponse {
     public List<HistoryRecord> getResults() {
         return results;
     }
-
-    public void setResults(List<HistoryRecord> results) {
-        this.results = results;
-    }
 }

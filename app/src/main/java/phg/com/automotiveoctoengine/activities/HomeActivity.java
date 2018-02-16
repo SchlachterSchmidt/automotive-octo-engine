@@ -8,13 +8,12 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import phg.com.automotiveoctoengine.Interfaces.NetworkStateListener;
+import phg.com.automotiveoctoengine.interfaces.NetworkStateListener;
 import phg.com.automotiveoctoengine.R;
 import phg.com.automotiveoctoengine.controllers.NetworkStateReceiver;
 import phg.com.automotiveoctoengine.services.MonitoringService;
@@ -22,10 +21,10 @@ import phg.com.automotiveoctoengine.services.MonitoringService;
 public class HomeActivity extends AppCompatActivity {
 
     private ToggleButton toggle_monitor_button;
-    Context context = this;
+    private Context context = this;
 
-    final UpdateDisplayReceiver updateDisplayReceiver = new UpdateDisplayReceiver();
-    final NetworkStateReceiver networkStateReceiver = new NetworkStateReceiver(new NetworkStateListener() {
+    private final UpdateDisplayReceiver updateDisplayReceiver = new UpdateDisplayReceiver();
+    private final NetworkStateReceiver networkStateReceiver = new NetworkStateReceiver(new NetworkStateListener() {
         @Override
         public void onNetworkAvailable() {
             toggle_monitor_button.setEnabled(true);

@@ -10,7 +10,7 @@ import phg.com.automotiveoctoengine.models.HistoryRecord;
 
 public class HistoryService {
 
-    Context context;
+    private Context context;
 
     public HistoryService(Context context) {
         this.context = context;

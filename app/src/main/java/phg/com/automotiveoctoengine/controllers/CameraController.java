@@ -4,12 +4,11 @@ import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
 
-import phg.com.automotiveoctoengine.Interfaces.OnPictureSavedListener;
+import phg.com.automotiveoctoengine.interfaces.OnPictureSavedListener;
 
 import static java.lang.Thread.sleep;
 

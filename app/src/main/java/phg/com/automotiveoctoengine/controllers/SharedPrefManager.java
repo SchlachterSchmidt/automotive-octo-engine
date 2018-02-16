@@ -23,24 +23,24 @@ public class SharedPrefManager {
     private static final String KEY_ATTN_SCORE = "key_attn_score";
     private static final String KEY_LAST_CLASSIFICATION = "key_last_classification";
 
-    private static SharedPrefManager mInstance;
-    private static Context mCtx;
+    private static SharedPrefManager sharedPrefManager;
+    private static Context context;
 
     private SharedPrefManager(Context context) {
-        mCtx = context;
+        SharedPrefManager.context = context;
     }
 
     public static synchronized SharedPrefManager getInstance(Context context) {
-        if (mInstance == null) {
-            mInstance = new SharedPrefManager(context);
+        if (sharedPrefManager == null) {
+            sharedPrefManager = new SharedPrefManager(context);
         }
-        return mInstance;
+        return sharedPrefManager;
     }
 
     //method to let the user login
     //this method will store the user data in shared preferences
     public void login(User user) {
-        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_FIRST_NAME, user.getFirstname());
         editor.putString(KEY_LAST_NAME, user.getLastname());
@@ -52,12 +52,12 @@ public class SharedPrefManager {
 
     //check whether user is already logged in
     public boolean isLoggedIn() {
-        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_USERNAME, null) != null;
     }
 
     public User getUser() {
-        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return new User(
                 sharedPreferences.getString(KEY_FIRST_NAME, null),
                 sharedPreferences.getString(KEY_LAST_NAME, null),
@@ -69,15 +69,15 @@ public class SharedPrefManager {
 
     //log the user out
     public void logout() {
-        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-        mCtx.startActivity(new Intent(mCtx, LoginActivity.class));
+        context.startActivity(new Intent(context, LoginActivity.class));
     }
 
     public void setAttentionScore(float score) {
-        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 
@@ -87,7 +87,7 @@ public class SharedPrefManager {
     }
 
     public float getAttentionScore() {
-        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         String lastClassTime = sharedPreferences.getString(KEY_LAST_CLASSIFICATION, "1");
         String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 

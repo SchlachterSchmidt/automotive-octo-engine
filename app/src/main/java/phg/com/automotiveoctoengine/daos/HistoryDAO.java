@@ -1,7 +1,6 @@
 package phg.com.automotiveoctoengine.daos;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -20,7 +19,7 @@ import phg.com.automotiveoctoengine.models.HistoryResponse;
 import phg.com.automotiveoctoengine.models.User;
 
 public class HistoryDAO {
-    Context context;
+    private Context context;
     public HistoryDAO(Context context) {
         this.context = context;
     }
@@ -49,9 +48,7 @@ public class HistoryDAO {
             }
 
             HistoryResponse historyResponse = gson.fromJson(response.body().string(), HistoryResponse.class);
-            List<HistoryRecord> historyRecordList = historyResponse.getResults();
-
-            return historyRecordList;
+            return historyResponse.getResults();
         } catch (InterruptedException | ExecutionException e) {
             throw new IOException(e.getMessage());
         }
