@@ -43,14 +43,14 @@ public class UserDAO {
             .build();
 
         try {
-            Response response = okHttpHandler.execute(request).get();
+            String response = okHttpHandler.execute(request).get();
             if (response == null) {
                 throw new IOException("Something went wrong");
             }
-            if (!response.isSuccessful()) {
-                ResponseError responseError = gson.fromJson(response.body().string(), ResponseError.class);
-                throw new IOException(responseError.getError());
-            }
+            //if () {
+
+            //    throw new IOException();
+            //}
             return true;
         } catch(ExecutionException | InterruptedException e) {
             throw new IOException("Something went wrong");
@@ -76,14 +76,14 @@ public class UserDAO {
                 .build();
 
         try {
-            Response response = okHttpHandler.execute(request).get();
+            String response = okHttpHandler.execute(request).get();
             if (response == null ) {
                 throw new IOException("No response from server");
             }
-            if (!response.isSuccessful()) {
-                return null;
-            }
-            return gson.fromJson(response.body().string(), User.class);
+//            if (!response.isSuccessful()) {
+//                return null;
+//            }
+            return gson.fromJson(response, User.class);
 
         } catch (InterruptedException | ExecutionException e) {
             throw new IOException(e.getMessage());

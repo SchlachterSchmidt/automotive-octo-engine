@@ -50,18 +50,18 @@ public class MonitoringDAO {
                 .build();
 
         try {
-            Response response = okHttpHandler.execute(request).get();
+            String response = okHttpHandler.execute(request).get();
             if (response == null) {
                 throw new NetworkErrorException("No response from server");
             }
-            if (!response.isSuccessful()) {
-                throw new NetworkErrorException("Message received by server but not processed");
-            }
+//            if (!response.isSuccessful()) {
+//                throw new NetworkErrorException("Message received by server but not processed");
+//            }
 
-            String responseJson = response.body().string();
-            Log.d("MonitoringDAO response", responseJson);
-            return gson.fromJson(responseJson ,Classification.class);
-        } catch (InterruptedException | IOException | ExecutionException e) {
+//            String responseJson = response.body().string();
+            Log.d("MonitoringDAO response", response);
+            return gson.fromJson(response ,Classification.class);
+        } catch (InterruptedException | ExecutionException e) {
             throw new IOException(e.getMessage());
         }
     }

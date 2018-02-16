@@ -39,15 +39,15 @@ public class HistoryDAO {
                 .build();
 
         try {
-            Response response = okHttpHandler.execute(request).get();
+            String response = okHttpHandler.execute(request).get();
             if (response == null) {
                 throw new IOException("No response received");
             }
-            if (!response.isSuccessful()) {
-                throw new IOException("Response received but request was not successful");
-            }
+//            if (!response.isSuccessful()) {
+//                throw new IOException("Response received but request was not successful");
+//            }
 
-            HistoryResponse historyResponse = gson.fromJson(response.body().string(), HistoryResponse.class);
+            HistoryResponse historyResponse = gson.fromJson(response, HistoryResponse.class);
             return historyResponse.getResults();
         } catch (InterruptedException | ExecutionException e) {
             throw new IOException(e.getMessage());

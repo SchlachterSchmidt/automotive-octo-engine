@@ -11,7 +11,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import phg.com.automotiveoctoengine.interfaces.NetworkStateListener;
 
-public class OkHttpHandler extends AsyncTask<Request, Void, Response> {
+public class OkHttpHandler extends AsyncTask<Request, Void, String> {
 
     private Context context;
     private boolean networkAvailable = true;
@@ -33,13 +33,20 @@ public class OkHttpHandler extends AsyncTask<Request, Void, Response> {
     }
 
     @Override
-    protected Response doInBackground(Request... request) {
+    protected String doInBackground(Request... request) {
         OkHttpClient client = new OkHttpClient();
-
 
         if (networkAvailable) {
             try {
-                return client.newCall(request[0]).execute();
+                Response response = client.newCall(request[0]).execute();
+                if (response == null) {
+                    return new String();
+                }
+                if (!response.isSuccessful()) {
+                    String errorMessage = response.body().string();
+                    return errorMessage;
+                }
+                return response.body().string();
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.d("OkHTTP", "remote call failed");
@@ -49,5 +56,7 @@ public class OkHttpHandler extends AsyncTask<Request, Void, Response> {
             Log.d("OkHTTP", "no network available");
             return null;
         }
+
+        
     }
 }
