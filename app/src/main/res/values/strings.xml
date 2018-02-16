@@ -8,18 +8,26 @@
     <string name="settings_page_title">Settings</string>
     <string name="calibrate_page_title">Calibrate</string>
     <string name="history_page_title">History</string>
+    <string name="account_page_title">Account</string>
 
     <!--Text labels-->
     <string name="text_username">Username</string>string>
     <string name="text_password">Password</string>string>
     <string name="text_login">Login</string>string>
-
     <string name="text_enter_username">Username</string>
     <string name="text_enter_email">Email</string>
     <string name="text_enter_first_name">First name</string>
     <string name="text_enter_last_name">Last name</string>
     <string name="text_enter_password">Password</string>
     <string name="text_confirm_password">Confirm</string>
+
+    <string name="text_account_details">Account Details</string>
+    <string name="text_change_password">Change Password</string>
+    <string name="text_deactivate_account">Deactivate Account</string>
+    <string name="text_old_password">Old Password</string>
+    <string name="text_new_password">New Password</string>
+    <string name="text_confirm_new_password">Confirm Password</string>
+    <string name="text_check_to_deactivate_account">Check box to deactivate account</string>
 
     <!--Button labels-->
     <string name="button_login">Login</string>
@@ -31,5 +39,6 @@
     <string name="button_calibrate">Calibrate</string>
     <string name="button_history">History</string>
     <string name="button_logout">Logout</string>
+    <string name="button_account">Account</string>
 
 </resources>
