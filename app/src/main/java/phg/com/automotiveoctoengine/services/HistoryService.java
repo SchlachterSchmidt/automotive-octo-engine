@@ -1,0 +1,29 @@
+package phg.com.automotiveoctoengine.services;
+
+import android.content.Context;
+
+import java.io.IOException;
+import java.util.List;
+
+import phg.com.automotiveoctoengine.daos.HistoryDAO;
+import phg.com.automotiveoctoengine.models.HistoryRecord;
+
+public class HistoryService {
+
+    Context context;
+
+    public HistoryService(Context context) {
+        this.context = context;
+    }
+
+    public List<HistoryRecord> getRecords() {
+        HistoryDAO historyDAO = new HistoryDAO(context);
+
+        try {
+            return historyDAO.getRecords();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}

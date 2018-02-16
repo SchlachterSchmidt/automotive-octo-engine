@@ -1,0 +1,59 @@
+package phg.com.automotiveoctoengine.daos;
+
+import android.content.Context;
+import android.util.Log;
+
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import okhttp3.Credentials;
+import okhttp3.Request;
+import okhttp3.Response;
+import phg.com.automotiveoctoengine.controllers.OkHttpHandler;
+import phg.com.automotiveoctoengine.controllers.SharedPrefManager;
+import phg.com.automotiveoctoengine.controllers.URLs;
+import phg.com.automotiveoctoengine.models.HistoryRecord;
+import phg.com.automotiveoctoengine.models.HistoryResponse;
+import phg.com.automotiveoctoengine.models.User;
+
+public class HistoryDAO {
+    Context context;
+    public HistoryDAO(Context context) {
+        this.context = context;
+    }
+
+    public List<HistoryRecord> getRecords() throws IOException {
+
+        final Gson gson = new Gson();
+        final OkHttpHandler okHttpHandler = new OkHttpHandler(context);
+        final User currentUser = SharedPrefManager.getInstance(context).getUser();
+        final String credential = Credentials.basic(currentUser.getUsername(), currentUser.getPassword());
+
+        final Request request = new Request.Builder()
+                .url(URLs.URL_CLASSIFIER)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", credential)
+                .addHeader("cache-control", "no-cache")
+                .build();
+
+        try {
+            Response response = okHttpHandler.execute(request).get();
+            if (response == null) {
+                throw new IOException("No response received");
+            }
+            if (!response.isSuccessful()) {
+                throw new IOException("Response received but request was not successful");
+            }
+
+            HistoryResponse historyResponse = gson.fromJson(response.body().string(), HistoryResponse.class);
+            List<HistoryRecord> historyRecordList = historyResponse.getResults();
+
+            return historyRecordList;
+        } catch (InterruptedException | ExecutionException e) {
+            throw new IOException(e.getMessage());
+        }
+    }
+}
