@@ -8,8 +8,45 @@ public class User {
     private String username;
     private String email;
     private String password;
-
     private String confirm_password;
+    private boolean active;
+
+
+    public User(int id, String firstname, String lastname, String username, String email, String password) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(String firstname, String lastname, String username, String email, String password) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void deactivate() {
+        this.active = false;
+    }
 
     public String getFirstname() { return firstname; }
 
@@ -55,16 +92,5 @@ public class User {
 
     public void setConfirm_password(String confirm_password) {
         this.confirm_password = confirm_password;
-    }
-
-    public User() {
-    }
-
-    public User(String firstname, String lastname, String username, String email, String password) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.username = username;
-        this.email = email;
-        this.password = password;
     }
 }
