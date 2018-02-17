@@ -21,7 +21,7 @@ import phg.com.automotiveoctoengine.services.MonitoringService;
 public class HomeActivity extends AppCompatActivity {
 
     private ToggleButton toggle_monitor_button;
-    private Context context = this;
+    private final Context context = this;
 
     private final UpdateDisplayReceiver updateDisplayReceiver = new UpdateDisplayReceiver();
     private final NetworkStateReceiver networkStateReceiver = new NetworkStateReceiver(new NetworkStateListener() {

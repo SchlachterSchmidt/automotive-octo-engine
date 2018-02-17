@@ -14,12 +14,15 @@ import phg.com.automotiveoctoengine.models.User;
 public class SharedPrefManager {
 
     private static final String SHARED_PREF_NAME = "user_session";
+
     private static final String KEY_USER_ID = "key_user_id";
     private static final String KEY_FIRST_NAME = "key_first_name";
     private static final String KEY_LAST_NAME = "key_last_name";
     private static final String KEY_USERNAME = "key_username";
     private static final String KEY_EMAIL = "key_email";
     private static final String KEY_PASSWORD = "key_password";
+    private static final String KEY_ACTIVE = "key_active";
+
     private static final String KEY_ATTN_SCORE = "key_attn_score";
     private static final String KEY_LAST_CLASSIFICATION = "key_last_classification";
 
@@ -46,7 +49,12 @@ public class SharedPrefManager {
         editor.putString(KEY_USERNAME, user.getUsername());
         editor.putString(KEY_EMAIL, user.getEmail());
         editor.putString(KEY_PASSWORD, user.getPassword());
+        editor.putBoolean(KEY_ACTIVE, user.isActive());
         editor.apply();
+
+        Log.d("", "");
+
+
     }
 
     public boolean isLoggedIn() {
@@ -62,7 +70,8 @@ public class SharedPrefManager {
                 sharedPreferences.getString(KEY_LAST_NAME, null),
                 sharedPreferences.getString(KEY_USERNAME, null),
                 sharedPreferences.getString(KEY_EMAIL, null),
-                sharedPreferences.getString(KEY_PASSWORD, null)
+                sharedPreferences.getString(KEY_PASSWORD, null),
+                sharedPreferences.getBoolean(KEY_ACTIVE, true)
         );
     }
 

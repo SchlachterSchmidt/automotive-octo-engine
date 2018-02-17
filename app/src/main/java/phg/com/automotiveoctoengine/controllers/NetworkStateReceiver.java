@@ -10,7 +10,7 @@ import phg.com.automotiveoctoengine.interfaces.NetworkStateListener;
 
 public class NetworkStateReceiver extends BroadcastReceiver {
 
-    private NetworkStateListener networkStateListener;
+    private final NetworkStateListener networkStateListener;
 
     public NetworkStateReceiver(NetworkStateListener networkStateListener) {
         this.networkStateListener = networkStateListener;

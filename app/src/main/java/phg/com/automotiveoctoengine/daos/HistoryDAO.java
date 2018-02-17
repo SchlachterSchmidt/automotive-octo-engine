@@ -10,7 +10,6 @@ import java.util.concurrent.ExecutionException;
 
 import okhttp3.Credentials;
 import okhttp3.Request;
-import okhttp3.Response;
 import phg.com.automotiveoctoengine.controllers.OkHttpHandler;
 import phg.com.automotiveoctoengine.controllers.SharedPrefManager;
 import phg.com.automotiveoctoengine.controllers.URLs;
@@ -19,7 +18,7 @@ import phg.com.automotiveoctoengine.models.HistoryResponse;
 import phg.com.automotiveoctoengine.models.User;
 
 public class HistoryDAO {
-    private Context context;
+    private final Context context;
     public HistoryDAO(Context context) {
         this.context = context;
     }

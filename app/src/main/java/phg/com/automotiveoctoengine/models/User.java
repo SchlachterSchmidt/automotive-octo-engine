@@ -12,21 +12,14 @@ public class User {
     private boolean active;
 
 
-    public User(int id, String firstname, String lastname, String username, String email, String password) {
+    public User(int id, String firstname, String lastname, String username, String email, String password, boolean active) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
         this.email = email;
         this.password = password;
-    }
-
-    public User(String firstname, String lastname, String username, String email, String password) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.username = username;
-        this.email = email;
-        this.password = password;
+        this.active = active;
     }
 
     public User() {
@@ -46,6 +39,10 @@ public class User {
 
     public void deactivate() {
         this.active = false;
+    }
+
+    public void activate() {
+        this.active = true;
     }
 
     public String getFirstname() { return firstname; }
@@ -92,5 +89,11 @@ public class User {
 
     public void setConfirm_password(String confirm_password) {
         this.confirm_password = confirm_password;
+    }
+
+    public String toString() {
+        return "id: " + id + "\nfirstname: " + firstname + "\nlastname: " + lastname
+                + "\nemail: " + email + "\nusername: " + username + "\nactive: " + active
+                + "password\n" + password;
     }
 }

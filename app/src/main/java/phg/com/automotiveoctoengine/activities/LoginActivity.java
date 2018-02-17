@@ -34,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
         login();
         register();
     }
+
+    // Done
     private void login(){
         username = findViewById(R.id.editText_username);
         password = findViewById(R.id.editText_password);

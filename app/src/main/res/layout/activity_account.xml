@@ -151,16 +151,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/editText_old_password" />
 
             <Button
-                android:id="@+id/button_submit"
+                android:id="@+id/button_submit_deactivate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/button_submit"
+                android:text="@string/button_deactivate"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+                app:layout_constraintTop_toBottomOf="@+id/checkBox_deactivateAccount" />
 
             <TextView
                 android:id="@+id/textView_separator_account_details"
@@ -184,7 +184,7 @@
                 android:text="@string/text_change_password"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_username" />
+                app:layout_constraintTop_toBottomOf="@+id/button_updateAccount" />
 
             <EditText
                 android:id="@+id/editText_confirm_new_password"
@@ -216,10 +216,10 @@
                 android:text="@string/text_deactivate_account"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_confirm_new_password" />
+                app:layout_constraintTop_toBottomOf="@+id/button_changePassword" />
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/checkBox_deactivateAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -233,8 +233,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/text_check_to_deactivate_account"
-                app:layout_constraintBaseline_toBaselineOf="@+id/checkBox"
+                app:layout_constraintBaseline_toBaselineOf="@+id/checkBox_deactivateAccount"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/button_updateAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/button_update_account"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_username" />
+
+            <Button
+                android:id="@+id/button_changePassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/button_change_password"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_confirm_new_password" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

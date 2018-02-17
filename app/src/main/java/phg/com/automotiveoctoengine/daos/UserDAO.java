@@ -11,22 +11,20 @@ import okhttp3.Credentials;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 import phg.com.automotiveoctoengine.controllers.OkHttpHandler;
 import phg.com.automotiveoctoengine.controllers.SharedPrefManager;
 import phg.com.automotiveoctoengine.controllers.URLs;
-import phg.com.automotiveoctoengine.models.ResponseError;
 import phg.com.automotiveoctoengine.models.User;
 
 public class UserDAO {
 
-    private Context context;
+    private final Context context;
 
     public UserDAO(Context context) {
         this.context = context;
     }
 
-    // Status: DONE!
+    // Done
     public boolean register(User user) throws IOException {
 
         final MediaType MEDIA_TYPE = MediaType.parse("application/json");
@@ -46,19 +44,15 @@ public class UserDAO {
         try {
             String response = okHttpHandler.execute(request).get();
             if (response == null) {
-                throw new IOException("Something went wrong");
+                throw new IOException();
             }
-            //if () {
-
-            //    throw new IOException();
-            //}
             return true;
         } catch(ExecutionException | InterruptedException e) {
-            throw new IOException("Something went wrong");
-        }
+            throw new IOException(e.getMessage());
+       }
     }
 
-    // Status: DONE!
+    // Done
     public User login(User protoUser) throws IOException {
 
         final OkHttpHandler okHttpHandler = new OkHttpHandler(context);
@@ -79,19 +73,16 @@ public class UserDAO {
         try {
             String response = okHttpHandler.execute(request).get();
             if (response == null ) {
-                throw new IOException("No response from server");
+                throw new IOException();
             }
-//            if (!response.isSuccessful()) {
-//                return null;
-//            }
             return gson.fromJson(response, User.class);
-
         } catch (InterruptedException | ExecutionException e) {
             throw new IOException(e.getMessage());
         }
     }
 
-    public User update(User newUserDetails) throws IOException {
+    // Done
+    public User update(User newUser) throws IOException {
 
         final OkHttpHandler okHttpHandler = new OkHttpHandler(context);
         final Gson gson = new Gson();
@@ -99,12 +90,12 @@ public class UserDAO {
         final String credential = Credentials.basic(currentUser.getUsername(), currentUser.getPassword());
 
         final MediaType MEDIA_TYPE = MediaType.parse("application/json");
-        final String postdata = gson.toJson(newUserDetails);
+        final String postdata = gson.toJson(newUser);
         final RequestBody body = RequestBody.create(MEDIA_TYPE, postdata);
 
         final Request request = new Request.Builder()
-                .url(URLs.URL_USERS)
-                .post(body)
+                .url(URLs.URL_USERS + "/" + currentUser.getId())
+                .put(body)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Authorization", credential)
                 .addHeader("cache-control", "no-cache")
@@ -113,11 +104,8 @@ public class UserDAO {
         try {
             String response = okHttpHandler.execute(request).get();
             if (response == null ) {
-                throw new IOException("No response from server");
+                throw new IOException();
             }
-//            if (!response.isSuccessful()) {
-//                return null;
-//            }
             return gson.fromJson(response, User.class);
 
         } catch (InterruptedException | ExecutionException e) {

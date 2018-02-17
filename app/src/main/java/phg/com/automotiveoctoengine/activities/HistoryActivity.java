@@ -74,7 +74,7 @@ public class HistoryActivity extends AppCompatActivity {
         xAxis.setGranularity(24f); // 8 days?
         xAxis.setValueFormatter(new IAxisValueFormatter() {
 
-            private SimpleDateFormat mFormat = new SimpleDateFormat("dd MMM HH:mm");
+            private final SimpleDateFormat mFormat = new SimpleDateFormat("dd MMM HH:mm");
 
             @Override
             public String getFormattedValue(float value, AxisBase axis) {

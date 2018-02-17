@@ -40,5 +40,8 @@
     <string name="button_history">History</string>
     <string name="button_logout">Logout</string>
     <string name="button_account">Account</string>
+    <string name="button_update_account">Update Account</string>
+    <string name="button_change_password">Change Password</string>
+    <string name="button_deactivate">Deactivate</string>
 
 </resources>

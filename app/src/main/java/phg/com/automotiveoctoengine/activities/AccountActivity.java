@@ -17,70 +17,110 @@ import phg.com.automotiveoctoengine.services.UserService;
 
 public class AccountActivity extends AppCompatActivity {
 
-    private Context context = this;
+    private final Context context = this;
 
-    EditText first_name;
-    EditText last_name;
-    EditText email;
-    EditText username;
-    EditText old_password;
-    EditText new_password;
-    EditText confirm_password;
-    CheckBox deactivate_account;
-    Button submit_button;
+    private EditText first_name;
+    private EditText last_name;
+    private EditText email;
+    private EditText username;
+    private EditText old_password;
+    private EditText new_password;
+    private EditText confirm_password;
+    private CheckBox deactivate_account;
+
+    private Button submit_update_user_details;
+    private Button submit_change_password;
+    private Button submit_deactivate_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        update();
+        updateUserDetails();
+        changePassword();
+        deactivateAccount();
     }
 
-    private void update() {
+    // done
+    private void updateUserDetails() {
+
+        User currentUser = SharedPrefManager.getInstance(context).getUser();
+        final UserService userService = new UserService(context);
 
         first_name = findViewById(R.id.editText_first_name);
         last_name  = findViewById(R.id.editText_last_name);
         email = findViewById(R.id.editText_email);
         username = findViewById(R.id.editText_username);
-        old_password = findViewById(R.id.editText_old_password);
-        new_password = findViewById(R.id.editText_new_password);
-        confirm_password = findViewById(R.id.editText_confirm_new_password);
-        deactivate_account = findViewById(R.id.checkBox);
-        submit_button = findViewById(R.id.button_submit);
+        submit_update_user_details = findViewById(R.id.button_updateAccount);
 
-        final UserService userService = new UserService(context);
+        first_name.setText(currentUser.getFirstname());
+        last_name.setText(currentUser.getLastname());
+        email.setText(currentUser.getEmail());
+        username.setText(currentUser.getUsername());
 
-        submit_button.setOnClickListener(new View.OnClickListener() {
+        submit_update_user_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                User userDetails = new User();
-                userDetails.setFirstname(first_name.getText().toString());
-                userDetails.setLastname(last_name.getText().toString());
-                userDetails.setEmail(email.getText().toString());
-                userDetails.setUsername(username.getText().toString());
-                userDetails.setPassword(new_password.getText().toString());
-                userDetails.setConfirm_password(confirm_password.getText().toString());
 
-                if (deactivate_account.isChecked()) {
-                    userDetails.deactivate();
-                }
-                if (!confirm_password.getText().toString().equals(SharedPrefManager.getInstance(context).getUser().getPassword())) {
-                    Toast.makeText(context, "Current password not correct", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Boolean success = userService.update(userDetails);
+                final String firstName = first_name.getText().toString();
+                final String lastName = last_name.getText().toString();
+                final String mail = email.getText().toString();
+                final String userName = username.getText().toString();
 
-                    if (success) {
-                        if (deactivate_account.isChecked()) {
-                            Toast.makeText(context, "Account deactivated", Toast.LENGTH_SHORT).show();
-                            userService.logout();
-                        }
-                        Toast.makeText(context, "Account updated successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(AccountActivity.this, HomeActivity.class);
-                        startActivity(intent);
-                    }
+                Boolean success = userService.updateUserDetails(firstName, lastName, mail, userName);
+
+                if (success) {
+
+                    Toast.makeText(context, "Account updated successfully", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(AccountActivity.this, HomeActivity.class);
+                    startActivity(intent);
                 }
             }
         });
+    }
+
+    // done
+    private void changePassword() {
+
+        final UserService userService = new UserService(context);
+
+        old_password = findViewById(R.id.editText_old_password);
+        new_password = findViewById(R.id.editText_new_password);
+        confirm_password = findViewById(R.id.editText_confirm_new_password);
+        submit_change_password = findViewById(R.id.button_changePassword);
+
+        submit_change_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String oldPassword = old_password.getText().toString();
+                final String newPassword = new_password.getText().toString();
+                final String confirmPassword = confirm_password.getText().toString();
+
+                Boolean success = userService.changePassword(oldPassword, newPassword, confirmPassword);
+
+                if (success) {
+                    Intent intent = new Intent(AccountActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
+
+    private void deactivateAccount() {
+
+        deactivate_account = findViewById(R.id.checkBox_deactivateAccount);
+        submit_deactivate_button = findViewById(R.id.button_submit_deactivate);
+
+        submit_deactivate_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!deactivate_account.isChecked()) {
+                    Toast.makeText(context, "Check box to deactivate account", Toast.LENGTH_SHORT).show();
+                    //userService.logout();
+                }
+            }
+        });
+
     }
 }

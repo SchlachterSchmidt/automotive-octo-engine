@@ -25,7 +25,7 @@ public class MonitoringService extends IntentService {
 
     private final CameraController cameraController = CameraController.getInstance();
     private final MonitoringDAO monitoringDAO = new MonitoringDAO();
-    private FeedbackService feedbackService = new FeedbackService(this);
+    private final FeedbackService feedbackService = new FeedbackService(this);
 
     public MonitoringService() {
         super("MonitoringService");
