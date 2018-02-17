@@ -13,8 +13,8 @@ import phg.com.automotiveoctoengine.models.User;
 
 public class SharedPrefManager {
 
-    //the constants
     private static final String SHARED_PREF_NAME = "user_session";
+    private static final String KEY_USER_ID = "key_user_id";
     private static final String KEY_FIRST_NAME = "key_first_name";
     private static final String KEY_LAST_NAME = "key_last_name";
     private static final String KEY_USERNAME = "key_username";
@@ -37,11 +37,10 @@ public class SharedPrefManager {
         return sharedPrefManager;
     }
 
-    //method to let the user login
-    //this method will store the user data in shared preferences
     public void login(User user) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(KEY_USER_ID, user.getId());
         editor.putString(KEY_FIRST_NAME, user.getFirstname());
         editor.putString(KEY_LAST_NAME, user.getLastname());
         editor.putString(KEY_USERNAME, user.getUsername());
@@ -50,7 +49,6 @@ public class SharedPrefManager {
         editor.apply();
     }
 
-    //check whether user is already logged in
     public boolean isLoggedIn() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_USERNAME, null) != null;
@@ -59,6 +57,7 @@ public class SharedPrefManager {
     public User getUser() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return new User(
+                sharedPreferences.getInt(KEY_USER_ID, 0),
                 sharedPreferences.getString(KEY_FIRST_NAME, null),
                 sharedPreferences.getString(KEY_LAST_NAME, null),
                 sharedPreferences.getString(KEY_USERNAME, null),
@@ -67,7 +66,6 @@ public class SharedPrefManager {
         );
     }
 
-    //log the user out
     public void logout() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -90,12 +88,8 @@ public class SharedPrefManager {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         String lastClassTime = sharedPreferences.getString(KEY_LAST_CLASSIFICATION, "1");
         String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-
-        Log.d("SPM last class time", lastClassTime);
-        Log.d("SPM curr time", currentTime);
         // return the current attention score, or 1 if the last classification is more than 1800 seconds (30 minutes ago)
         if ( (Long.parseLong(currentTime) - Long.parseLong(lastClassTime) ) > 1800) {
-            Log.d("SPM ", "no classification found for the past 30 min");
             return 1;
         }
         else return sharedPreferences.getFloat(KEY_ATTN_SCORE, 1);
