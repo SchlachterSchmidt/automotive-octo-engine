@@ -17,10 +17,16 @@ public class UserService {
         this.context = context;
     }
 
-    // Status: DONE!
     public boolean register(User user) {
 
-        if (!validateUserInput(user)) return false;
+        if (!allFormFieldsFilledIn(user)) {
+            Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!passwordsMatch(user)) {
+            Toast.makeText(context, "Make sure passwords match", Toast.LENGTH_SHORT).show();
+            return false;
+        }
 
         UserDAO userDAO = new UserDAO(context);
         SharedPrefManager prefManager = SharedPrefManager.getInstance(context);
@@ -42,7 +48,6 @@ public class UserService {
         }
     }
 
-    // Status: Done!
     public boolean login(User protoUser) {
 
         UserDAO userDAO = new UserDAO(context);
@@ -64,32 +69,44 @@ public class UserService {
         }
     }
 
-    // Status: DONE!
+    public boolean update(User newUserDetails) {
+        if (!passwordsMatch(newUserDetails)) {
+            Toast.makeText(context, "Make sure passwords match", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        UserDAO userDAO = new UserDAO(context);
+        try {
+            userDAO.update(newUserDetails);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
     public void logout() {
         SharedPrefManager.getInstance(context).logout();
     }
 
-    public void update(User user) {
-        // ToDo: update
-    }
-
-    private boolean validateUserInput(User user) {
+    private boolean allFormFieldsFilledIn(User user) {
         if (    user.getFirstname().isEmpty() ||
                 user.getLastname().isEmpty() ||
                 user.getEmail().isEmpty() ||
                 user.getUsername().isEmpty() ||
                 user.getPassword().isEmpty() ||
                 user.getConfirm_password().isEmpty()) {
-            Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return false;
         }
-        else if ( !(user.getPassword().equals(user.getConfirm_password())) ) {
-            Toast.makeText(context, "Make sure passwords match", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        // ToDo: password length
-        // ToDo: valid email address
         return true;
     }
+
+    private boolean passwordsMatch(User user) {
+        return user.getPassword().equals(user.getConfirm_password());
+    }
+
+    // ToDo: password length
+    // ToDo: valid email address
 }
