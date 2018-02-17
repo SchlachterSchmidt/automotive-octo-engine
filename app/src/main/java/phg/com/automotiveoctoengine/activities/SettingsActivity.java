@@ -13,6 +13,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private Button calibrate_button;
     private Button logout_button;
+    private Button account_button;
     private final UserService userService = new UserService(this);
 
     @Override
@@ -21,6 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         calibrate();
         logout();
+        account();
 
     }
 
@@ -51,5 +53,17 @@ public class SettingsActivity extends AppCompatActivity {
 
 
         );
+    }
+
+    private void account() {
+        account_button = findViewById(R.id.button_account);
+
+        account_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SettingsActivity.this, AccountActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
