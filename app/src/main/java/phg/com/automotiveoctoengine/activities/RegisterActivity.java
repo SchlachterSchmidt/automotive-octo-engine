@@ -13,13 +13,13 @@ import phg.com.automotiveoctoengine.services.UserService;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private static EditText first_name;
-    private static EditText last_name;
-    private static EditText email;
-    private static EditText username;
-    private static EditText password;
-    private static EditText confirm_password;
-    private static Button submit_button;
+    private EditText first_name;
+    private EditText last_name;
+    private EditText email;
+    private EditText username;
+    private EditText password;
+    private EditText confirm_password;
+    private Button submit_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
