@@ -22,6 +22,8 @@ public class CameraController implements OnPictureSavedListener {
     private String imagePath = "null";
     private Context context;
 
+    private Boolean imageReceived;
+
     private CameraController() {
         getCamera();
         // setCameraPreferences();
@@ -55,25 +57,22 @@ public class CameraController implements OnPictureSavedListener {
     public String takePicture()  {
         PhotoHandler photoHandler = new PhotoHandler(context, CameraController.this);
         SurfaceTexture surfaceTexture = new SurfaceTexture(1);
+
+        imageReceived = false;
+
         try {
             camera.setPreviewTexture(surfaceTexture);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        camera.startPreview();
-        // works on emulator and device
-        try {
+            camera.startPreview();
             camera.takePicture(null, null, photoHandler);
-            //nc.redFlashLight(context);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        // ToDo: sort this unsynchronized shit out... this is the ugliest possible hackaround
-        try {
-            sleep(2000);
-        } catch (InterruptedException e) {
+            synchronized(this) {
+                while (!imageReceived) {
+                    wait();
+                }
+            }
+
+            //nc.redFlashLight(context);
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
         return imagePath;
@@ -130,7 +129,12 @@ public class CameraController implements OnPictureSavedListener {
     @Override
     public void onPictureSaved(String imagePath) {
         if (imagePath != null && !imagePath.equals("")) {
-            this.imagePath = imagePath;
+
+            synchronized(this){
+                this.imagePath = imagePath;
+                imageReceived = true;
+                notify();
+            }
         }
     }
 }
