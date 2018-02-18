@@ -81,8 +81,9 @@ public class OkHttpHandler extends AsyncTask<Request, Void, String> {
                 sb.append("\n");
             }
             final String messages = sb.toString();
+            // in order to get the UI thread back, we use the getMainLooper method Toast any exceptions
+            // that may have occurred
             Handler mainHandler = new Handler(context.getMainLooper());
-
             Runnable myRunnable = new Runnable() {
                 @Override
                 public void run() {

@@ -106,7 +106,10 @@ public class AccountActivity extends AppCompatActivity {
         });
     }
 
+    // Done
     private void deactivateAccount() {
+
+        final UserService userService = new UserService(context);
 
         deactivate_account = findViewById(R.id.checkBox_deactivateAccount);
         submit_deactivate_button = findViewById(R.id.button_submit_deactivate);
@@ -115,9 +118,11 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (!deactivate_account.isChecked()) {
-                    Toast.makeText(context, "Check box to deactivate account", Toast.LENGTH_SHORT).show();
-                    //userService.logout();
+                Boolean isChecked = deactivate_account.isChecked();
+                Boolean success = userService.deactivateAccount(isChecked);
+                if (success) {
+                    Intent intent = new Intent(AccountActivity.this, LoginActivity.class);
+                    startActivity(intent);
                 }
             }
         });

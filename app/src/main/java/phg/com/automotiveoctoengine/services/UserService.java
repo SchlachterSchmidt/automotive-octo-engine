@@ -144,6 +144,25 @@ public class UserService {
         return user.getPassword().equals(user.getConfirm_password());
     }
 
+    // Done
+    public Boolean deactivateAccount(Boolean isChecked) {
+
+        if (!isChecked) {
+            Toast.makeText(context, "Check box to deactivate account", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        User updatedUser = SharedPrefManager.getInstance(context).getUser();
+        updatedUser.deactivate();
+
+        Boolean success = update(updatedUser);
+        if (!success) {
+            return false;
+        }
+        Toast.makeText(context, "Account deactivated", Toast.LENGTH_SHORT).show();
+        logout();
+        return true;
+    }
+
     // ToDo: password length
     // ToDo: valid email address
 }
