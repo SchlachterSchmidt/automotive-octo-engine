@@ -43,11 +43,14 @@ public class HistoryActivity extends AppCompatActivity {
         super.onResume();
         setChart();
         List<HistoryRecord> historyRecordList = getRecords();
+
         LineData data = getLineData(historyRecordList);
 
-        lineChart.setData(data);
-        // render chart
-        lineChart.invalidate();
+        if (data.getEntryCount() != 0) {
+            lineChart.setData(data);
+            // render chart
+            lineChart.invalidate();
+        }
     }
 
     private void setChart() {
@@ -128,13 +131,6 @@ public class HistoryActivity extends AppCompatActivity {
 
     private List<HistoryRecord> getRecords() {
         HistoryService historyService = new HistoryService(context);
-        List<HistoryRecord> historyRecordList =  historyService.getRecords();
-        if (historyRecordList == null) {
-            Toast.makeText(context, "No response received", Toast.LENGTH_SHORT).show();
-        }
-        if (historyRecordList.isEmpty()) {
-            Toast.makeText(context, "No history yet", Toast.LENGTH_SHORT).show();
-        }
-        return historyRecordList;
+        return historyService.getRecords();
     }
 }

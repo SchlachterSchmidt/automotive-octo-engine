@@ -25,8 +25,8 @@ public class HistoryDAO {
 
     public List<HistoryRecord> getRecords() throws IOException {
 
-        final Gson gson = new Gson();
         final OkHttpHandler okHttpHandler = new OkHttpHandler(context);
+        final Gson gson = new Gson();
         final User currentUser = SharedPrefManager.getInstance(context).getUser();
         final String credential = Credentials.basic(currentUser.getUsername(), currentUser.getPassword());
 
@@ -40,14 +40,10 @@ public class HistoryDAO {
         try {
             String response = okHttpHandler.execute(request).get();
             if (response == null) {
-                throw new IOException("No response received");
+                throw new IOException();
             }
-//            if (!response.isSuccessful()) {
-//                throw new IOException("Response received but request was not successful");
-//            }
+            return gson.fromJson(response, HistoryResponse.class).getResults();
 
-            HistoryResponse historyResponse = gson.fromJson(response, HistoryResponse.class);
-            return historyResponse.getResults();
         } catch (InterruptedException | ExecutionException e) {
             throw new IOException(e.getMessage());
         }
