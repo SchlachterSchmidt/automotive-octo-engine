@@ -1,7 +1,6 @@
 package phg.com.automotiveoctoengine.services;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,8 +24,7 @@ public class HistoryService {
             return historyDAO.getRecords();
         } catch (IOException e) {
             e.printStackTrace();
-            List<HistoryRecord> emptyList = new ArrayList<>();
-            return emptyList;
+            return new ArrayList<>();
         }
     }
 }

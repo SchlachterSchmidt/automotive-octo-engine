@@ -128,15 +128,12 @@ public class UserService {
 
     // Done
     private boolean allFormFieldsFilledIn(User user) {
-        if (    user.getFirstname().isEmpty() ||
+        return !(user.getFirstname().isEmpty() ||
                 user.getLastname().isEmpty() ||
                 user.getEmail().isEmpty() ||
                 user.getUsername().isEmpty() ||
                 user.getPassword().isEmpty() ||
-                user.getConfirm_password().isEmpty()) {
-            return false;
-        }
-        return true;
+                user.getConfirm_password().isEmpty());
     }
 
     // Done

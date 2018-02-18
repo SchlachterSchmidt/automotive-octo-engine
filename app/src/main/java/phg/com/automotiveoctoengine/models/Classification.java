@@ -2,11 +2,11 @@ package phg.com.automotiveoctoengine.models;
 
 public class Classification {
 
-    private double confidence;
-    private String filename;
-    private int prediction;
-    private float[] probabilities;
-    private float score;
+    private final double confidence;
+    private final String filename;
+    private final int prediction;
+    private final float[] probabilities;
+    private final float score;
 
     public Classification(int confidence, String filename, int prediction, float[] probabilities, float score) {
         this.confidence = confidence;
