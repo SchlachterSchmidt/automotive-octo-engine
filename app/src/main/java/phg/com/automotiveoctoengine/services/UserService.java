@@ -137,11 +137,6 @@ public class UserService {
     }
 
     // Done
-    private boolean passwordsMatch(User user) {
-        return user.getPassword().equals(user.getConfirm_password());
-    }
-
-    // Done
     public Boolean deactivateAccount(Boolean isChecked) {
 
         if (!isChecked) {
@@ -158,6 +153,11 @@ public class UserService {
         Toast.makeText(context, "Account deactivated", Toast.LENGTH_SHORT).show();
         logout();
         return true;
+    }
+
+    // Done
+    private boolean passwordsMatch(User user) {
+        return user.getPassword().equals(user.getConfirm_password());
     }
 
     // ToDo: password length
