@@ -28,6 +28,10 @@
     <string name="text_new_password">New Password</string>
     <string name="text_confirm_new_password">Confirm Password</string>
     <string name="text_check_to_deactivate_account">Check box to deactivate account</string>
+    <string name="text_image_quality">Image Quality</string>
+    <string name="text_image_compression">Image Compression</string>
+    <string name="text_monitoring">Monitoring</string>
+    <string name="text_frequency">Frequency</string>
 
     <!--Button labels-->
     <string name="button_login">Login</string>
@@ -44,4 +48,7 @@
     <string name="button_change_password">Change Password</string>
     <string name="button_deactivate">Deactivate</string>
 
+    <string name="radio_low">Low</string>
+    <string name="radio_medium">Medium</string>
+    <string name="radio_high">High</string>
 </resources>

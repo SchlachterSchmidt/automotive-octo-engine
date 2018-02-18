@@ -70,7 +70,6 @@ public class CameraController implements OnPictureSavedListener {
                     wait();
                 }
             }
-
             //nc.redFlashLight(context);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
