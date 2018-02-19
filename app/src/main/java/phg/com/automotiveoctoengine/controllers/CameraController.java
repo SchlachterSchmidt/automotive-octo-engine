@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import phg.com.automotiveoctoengine.interfaces.OnPictureSavedListener;
 
-import static java.lang.Thread.sleep;
+import static android.hardware.Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE;
 
 public class CameraController implements OnPictureSavedListener {
 
@@ -26,7 +26,7 @@ public class CameraController implements OnPictureSavedListener {
 
     private CameraController() {
         getCamera();
-        // setCameraPreferences();
+        setCameraPreferences();
     }
 
     private void getCamera() {
@@ -83,7 +83,7 @@ public class CameraController implements OnPictureSavedListener {
 
     public void retakeCamera() {
         getCamera();
-        // setCameraPreferences();
+        setCameraPreferences();
     }
 
     public void releaseCamera() {
@@ -94,13 +94,16 @@ public class CameraController implements OnPictureSavedListener {
     }
 
     private int getCameraId() {
+
+        SharedPrefManager sharedPrefManager = SharedPrefManager.getInstance(context);
+        final int USE_CAMERA = sharedPrefManager.getCameraFacing();
+
         int cameraId = -1;
         int numberOfCameras = Camera.getNumberOfCameras();
 
         for (int i = 0; i < numberOfCameras; i++) {
             CameraInfo info = new CameraInfo();
             Camera.getCameraInfo(i, info);
-            int USE_CAMERA = 1;
             if (info.facing == USE_CAMERA) {
                 cameraId = i;
                 break;
@@ -113,14 +116,46 @@ public class CameraController implements OnPictureSavedListener {
     // images remain 640 by 480
     private void setCameraPreferences() {
         if (camera == null) getCamera();
+        SharedPrefManager sharedPrefManager = SharedPrefManager.getInstance(context);
         Camera.Parameters parameters = camera.getParameters();
-        int JPEG_COMPRESSION = 50;
-        int PIC_WIDTH = 500;
-        int PIC_HEIGHT = 500;
         String FLASH_OFF = "FLASH_MODE_OFF";
 
-        parameters.setJpegQuality(JPEG_COMPRESSION);
-        parameters.setPictureSize(PIC_WIDTH, PIC_HEIGHT);
+        final String LOW = "LOW";
+        final int LOW_INT = 40;
+        final int SMALL_WIDTH = 480;
+        final int SMALL_HEIGHT = 360;
+        final String MEDIUM = "MEDIUM";
+        final int MEDIUM_INT = 70;
+        final int MEDIUM_WIDTH = 640;
+        final int MEDIUM_HEIGHT = 480;
+        final String HIGH = "HIGH";
+        final int HIGH_INT = 100;
+        final int HIGH_WIDTH = 960;
+        final int HIGH_HEIGHT = 720;
+
+        String imageCompression = sharedPrefManager.getImageCompression();
+        if (imageCompression.equals(LOW)) {
+            parameters.setJpegQuality(LOW_INT);
+        }
+        else if (imageCompression.equals(MEDIUM)) {
+            parameters.setJpegQuality(MEDIUM_INT);
+        }
+        else if (imageCompression.equals(HIGH)) {
+            parameters.setJpegQuality(HIGH_INT);
+        }
+
+        String imageQuality = sharedPrefManager.getImageQuality();
+        if (imageQuality.equals(LOW)) {
+            parameters.setPictureSize(SMALL_WIDTH, SMALL_HEIGHT);
+        }
+        else if (imageQuality.equals(MEDIUM)) {
+            parameters.setPictureSize(MEDIUM_WIDTH, MEDIUM_HEIGHT);
+        }
+        else if (imageQuality.equals(HIGH)) {
+            parameters.setPictureSize(HIGH_WIDTH, HIGH_HEIGHT);
+        }
+
+        parameters.setFocusMode(FOCUS_MODE_CONTINUOUS_PICTURE);
         parameters.setFlashMode(FLASH_OFF);
         camera.setParameters(parameters);
     }
