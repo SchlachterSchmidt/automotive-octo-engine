@@ -27,7 +27,6 @@ public class SettingsActivity extends AppCompatActivity {
     final int BACK = 0;
     final int FRONT = 1;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,10 +199,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         int cameraFacing = sharedPrefManager.getCameraFacing();
 
-        if (cameraFacing == 0) {
+        if (cameraFacing == BACK) {
             cameraFacingBack.setChecked(true);
         }
-        else if (cameraFacing == 1) {
+        else if (cameraFacing == FRONT) {
             cameraFacingFront.setChecked(true);
         }
 
