@@ -32,6 +32,7 @@
     <string name="text_image_compression">Image Compression</string>
     <string name="text_monitoring">Monitoring</string>
     <string name="text_frequency">Frequency</string>
+    <string name="text_choose_camera">Choose camera</string>
 
     <!--Button labels-->
     <string name="button_login">Login</string>
@@ -47,8 +48,11 @@
     <string name="button_update_account">Update Account</string>
     <string name="button_change_password">Change Password</string>
     <string name="button_deactivate">Deactivate</string>
+    <string name="button_save">Save</string>
 
     <string name="radio_low">Low</string>
     <string name="radio_medium">Medium</string>
     <string name="radio_high">High</string>
+    <string name="radio_front">Front</string>
+    <string name="radio_back">Back</string>
 </resources>
