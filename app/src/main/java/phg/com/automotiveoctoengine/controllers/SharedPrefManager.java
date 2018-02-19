@@ -13,8 +13,7 @@ import phg.com.automotiveoctoengine.models.User;
 
 public class SharedPrefManager {
 
-    private static final String SHARED_PREF_NAME = "user_session";
-
+    private static final String SHARED_PREF_USER_SESSION = "user_session";
     private static final String KEY_USER_ID = "key_user_id";
     private static final String KEY_FIRST_NAME = "key_first_name";
     private static final String KEY_LAST_NAME = "key_last_name";
@@ -22,9 +21,18 @@ public class SharedPrefManager {
     private static final String KEY_EMAIL = "key_email";
     private static final String KEY_PASSWORD = "key_password";
     private static final String KEY_ACTIVE = "key_active";
-
     private static final String KEY_ATTN_SCORE = "key_attn_score";
     private static final String KEY_LAST_CLASSIFICATION = "key_last_classification";
+
+    private static final String SHARED_PREF_MONITORING_SETTINGS = "camera_settings";
+    private static final String KEY_IMAGE_QUALITY = "image_quality";
+    private static final String KEY_IMAGE_COMPRESSION = "image_compression";
+    private static final String KEY_CAMERA_FACING = "use_camera";
+    private static final String KEY_MONITORING_FREQUENCY = "monitoring_frequency";
+
+    private final String LOW = "LOW";
+    private final String MEDIUM = "MEDIUM";
+    private final String HIGH = "HIGH";
 
     private static SharedPrefManager sharedPrefManager;
     private static Context context;
@@ -41,7 +49,7 @@ public class SharedPrefManager {
     }
 
     public void login(User user) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_SESSION, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(KEY_USER_ID, user.getId());
         editor.putString(KEY_FIRST_NAME, user.getFirstname());
@@ -58,12 +66,12 @@ public class SharedPrefManager {
     }
 
     public boolean isLoggedIn() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_SESSION, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_USERNAME, null) != null;
     }
 
     public User getUser() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_SESSION, Context.MODE_PRIVATE);
         return new User(
                 sharedPreferences.getInt(KEY_USER_ID, 0),
                 sharedPreferences.getString(KEY_FIRST_NAME, null),
@@ -76,7 +84,7 @@ public class SharedPrefManager {
     }
 
     public void logout() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_SESSION, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
@@ -84,7 +92,7 @@ public class SharedPrefManager {
     }
 
     public void setAttentionScore(float score) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_SESSION, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 
@@ -94,7 +102,7 @@ public class SharedPrefManager {
     }
 
     public float getAttentionScore() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_SESSION, Context.MODE_PRIVATE);
         String lastClassTime = sharedPreferences.getString(KEY_LAST_CLASSIFICATION, "1");
         String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         // return the current attention score, or 1 if the last classification is more than 1800 seconds (30 minutes ago)
@@ -102,5 +110,54 @@ public class SharedPrefManager {
             return 1;
         }
         else return sharedPreferences.getFloat(KEY_ATTN_SCORE, 1);
+    }
+
+    public void setCameraFacing(int cameraFacing) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_MONITORING_SETTINGS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(KEY_CAMERA_FACING, cameraFacing);
+        editor.apply();
+    }
+
+    public int getCameraFacing() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_MONITORING_SETTINGS, Context.MODE_PRIVATE);
+        // default to the front facing camera with id 1
+        return sharedPreferences.getInt(KEY_CAMERA_FACING, 1);
+    }
+
+    public void setImageQuality(String quality) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_MONITORING_SETTINGS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_IMAGE_QUALITY, quality);
+        editor.apply();
+    }
+
+    public String getImageQuality() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_MONITORING_SETTINGS, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_IMAGE_QUALITY, MEDIUM);
+    }
+
+    public void setImageCompression(String compression) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_MONITORING_SETTINGS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_IMAGE_COMPRESSION, compression);
+        editor.apply();
+    }
+
+    public String getImageCompression() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_MONITORING_SETTINGS, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_IMAGE_COMPRESSION, MEDIUM);
+    }
+
+    public void setMonitoringFrequency(String frequency) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_MONITORING_SETTINGS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_MONITORING_FREQUENCY, frequency);
+        editor.apply();
+    }
+
+    public String getMonitoringFrequency() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_MONITORING_SETTINGS, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_MONITORING_FREQUENCY, MEDIUM);
     }
 }
