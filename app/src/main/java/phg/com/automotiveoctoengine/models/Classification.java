@@ -16,20 +16,8 @@ public class Classification {
         this.score = score;
     }
 
-    public double getConfidence() {
-        return confidence;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
     public int getPrediction() {
         return prediction;
-    }
-
-    public float[] getProbabilities() {
-        return probabilities;
     }
 
     public float getScore() {

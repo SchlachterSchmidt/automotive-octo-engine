@@ -13,14 +13,6 @@ import phg.com.automotiveoctoengine.services.UserService;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText first_name;
-    private EditText last_name;
-    private EditText email;
-    private EditText username;
-    private EditText password;
-    private EditText confirm_password;
-    private Button submit_button;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,13 +22,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void register() {
 
-        first_name = findViewById(R.id.editText_first_name);
-        last_name = findViewById(R.id.editText_last_name);
-        email = findViewById(R.id.editText_email);
-        username = findViewById(R.id.editText_username);
-        password = findViewById(R.id.editText_password);
-        confirm_password = findViewById(R.id.editText_confirm_password);
-        submit_button = findViewById(R.id.button_submit);
+        final EditText first_name = findViewById(R.id.editText_first_name);
+        final EditText last_name = findViewById(R.id.editText_last_name);
+        final EditText email = findViewById(R.id.editText_email);
+        final EditText username = findViewById(R.id.editText_username);
+        final EditText password = findViewById(R.id.editText_password);
+        final EditText confirm_password = findViewById(R.id.editText_confirm_password);
+        Button submit_button = findViewById(R.id.button_submit);
 
         final UserService userService = new UserService(this);
 
@@ -51,7 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
                     user.setEmail(email.getText().toString());
                     user.setUsername(username.getText().toString());
                     user.setPassword(password.getText().toString());
-                    user.setConfirm_password(confirm_password.getText().toString());
+                    user.setConfirmPassword(confirm_password.getText().toString());
 
                     boolean successful = userService.register(user);
 

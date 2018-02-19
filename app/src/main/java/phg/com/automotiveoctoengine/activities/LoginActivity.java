@@ -15,11 +15,6 @@ import phg.com.automotiveoctoengine.services.UserService;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText username;
-    private EditText password;
-    private Button login_button;
-    private Button register_button;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +32,9 @@ public class LoginActivity extends AppCompatActivity {
 
     // Done
     private void login(){
-        username = findViewById(R.id.editText_username);
-        password = findViewById(R.id.editText_password);
-        login_button = findViewById(R.id.button_login);
-        register_button = findViewById(R.id.button_register);
+        final EditText username = findViewById(R.id.editText_username);
+        final EditText password = findViewById(R.id.editText_password);
+        Button login_button = findViewById(R.id.button_login);
 
         final Context context = this;
         final UserService userService = new UserService(context);
@@ -63,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void register() {
-        register_button = findViewById(R.id.button_register);
+        Button register_button = findViewById(R.id.button_register);
 
         register_button.setOnClickListener(
             new View.OnClickListener() {

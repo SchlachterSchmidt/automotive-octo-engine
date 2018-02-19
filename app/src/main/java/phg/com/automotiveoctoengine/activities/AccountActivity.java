@@ -28,10 +28,6 @@ public class AccountActivity extends AppCompatActivity {
     private EditText confirm_password;
     private CheckBox deactivate_account;
 
-    private Button submit_update_user_details;
-    private Button submit_change_password;
-    private Button submit_deactivate_button;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +42,13 @@ public class AccountActivity extends AppCompatActivity {
 
         User currentUser = SharedPrefManager.getInstance(context).getUser();
         final UserService userService = new UserService(context);
+        Button submit_update_user_details = findViewById(R.id.button_updateAccount);
 
         first_name = findViewById(R.id.editText_first_name);
         last_name  = findViewById(R.id.editText_last_name);
         email = findViewById(R.id.editText_email);
         username = findViewById(R.id.editText_username);
-        submit_update_user_details = findViewById(R.id.button_updateAccount);
+
 
         first_name.setText(currentUser.getFirstname());
         last_name.setText(currentUser.getLastname());
@@ -83,11 +80,12 @@ public class AccountActivity extends AppCompatActivity {
     private void changePassword() {
 
         final UserService userService = new UserService(context);
+        Button submit_change_password = findViewById(R.id.button_changePassword);
 
         old_password = findViewById(R.id.editText_old_password);
         new_password = findViewById(R.id.editText_new_password);
         confirm_password = findViewById(R.id.editText_confirm_new_password);
-        submit_change_password = findViewById(R.id.button_changePassword);
+
 
         submit_change_password.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,9 +108,9 @@ public class AccountActivity extends AppCompatActivity {
     private void deactivateAccount() {
 
         final UserService userService = new UserService(context);
+        Button submit_deactivate_button = findViewById(R.id.button_submit_deactivate);
 
         deactivate_account = findViewById(R.id.checkBox_deactivateAccount);
-        submit_deactivate_button = findViewById(R.id.button_submit_deactivate);
 
         submit_deactivate_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +124,5 @@ public class AccountActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 }

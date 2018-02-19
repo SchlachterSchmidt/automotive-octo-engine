@@ -133,7 +133,7 @@ public class UserService {
                 user.getEmail().isEmpty() ||
                 user.getUsername().isEmpty() ||
                 user.getPassword().isEmpty() ||
-                user.getConfirm_password().isEmpty());
+                user.getConfirmPassword().isEmpty());
     }
 
     // Done
@@ -157,7 +157,7 @@ public class UserService {
 
     // Done
     private boolean passwordsMatch(User user) {
-        return user.getPassword().equals(user.getConfirm_password());
+        return user.getPassword().equals(user.getConfirmPassword());
     }
 
     // ToDo: password length

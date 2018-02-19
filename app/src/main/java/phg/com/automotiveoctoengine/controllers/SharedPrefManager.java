@@ -29,10 +29,8 @@ public class SharedPrefManager {
     private static final String KEY_IMAGE_COMPRESSION = "image_compression";
     private static final String KEY_CAMERA_FACING = "use_camera";
     private static final String KEY_MONITORING_FREQUENCY = "monitoring_frequency";
-
-    private final String LOW = "LOW";
+    
     private final String MEDIUM = "MEDIUM";
-    private final String HIGH = "HIGH";
 
     private static SharedPrefManager sharedPrefManager;
     private static Context context;

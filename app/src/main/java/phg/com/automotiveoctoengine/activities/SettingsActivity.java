@@ -21,11 +21,11 @@ public class SettingsActivity extends AppCompatActivity {
     private final UserService userService = new UserService(this);
     final SharedPrefManager sharedPrefManager = SharedPrefManager.getInstance(context);
 
-    final String LOW = "LOW";
-    final String MEDIUM = "MEDIUM";
-    final String HIGH = "HIGH";
-    final int BACK = 0;
-    final int FRONT = 1;
+    private final String LOW = "LOW";
+    private final String MEDIUM = "MEDIUM";
+    private final String HIGH = "HIGH";
+    private final int BACK = 0;
+    private final int FRONT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

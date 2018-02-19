@@ -45,7 +45,7 @@ public class MonitoringService extends IntentService {
             String imagePath = cameraController.takePicture();
             try {
                 Classification classification = monitoringDAO.classify(getApplicationContext(), imagePath);
-                    feedbackService.prepareFeedback(classification);
+                feedbackService.prepareFeedback(classification);
                 sleep(frequency);
             } catch (InterruptedException | IOException | NetworkErrorException e) {
                 e.printStackTrace();

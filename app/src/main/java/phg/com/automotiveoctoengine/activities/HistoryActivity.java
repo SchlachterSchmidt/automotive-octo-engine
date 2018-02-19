@@ -106,7 +106,7 @@ public class HistoryActivity extends AppCompatActivity {
         float x = 0;
 
         for (HistoryRecord historyRecord: historyRecordList) {
-            XYvalues.add(new Entry((x += 1), historyRecord.getDistraction_score()));
+            XYvalues.add(new Entry((x += 1), historyRecord.getDistractionScore()));
         }
 
         LineDataSet lineDataSet = new LineDataSet(XYvalues, "History Data Set");

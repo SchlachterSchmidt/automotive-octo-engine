@@ -83,11 +83,11 @@ public class User {
         this.password = password;
     }
 
-    public String getConfirm_password() {
+    public String getConfirmPassword() {
         return confirm_password;
     }
 
-    public void setConfirm_password(String confirm_password) {
+    public void setConfirmPassword(String confirm_password) {
         this.confirm_password = confirm_password;
     }
 
