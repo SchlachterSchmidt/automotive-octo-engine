@@ -1,10 +1,11 @@
 package phg.com.automotiveoctoengine.services;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import phg.com.automotiveoctoengine.controllers.SharedPrefManager;
 import phg.com.automotiveoctoengine.daos.UserDAO;
@@ -25,8 +26,19 @@ public class UserService {
             Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (!passwordsMatch(user)) {
+
+        if (!validateNewPasswordsMatch(user.getPassword(), user.getConfirmPassword())) {
             Toast.makeText(context, "Make sure passwords match", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!validateEmail(user.getEmail())) {
+            Toast.makeText(context, "Please enter valid email address", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!validatePasswordComplexity(user.getPassword())) {
+            Toast.makeText(context, "Password does not meet requirements", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -88,26 +100,34 @@ public class UserService {
     // Done
     public boolean updateUserDetails(String firstName, String lastName, String email, String userName) {
 
+        if (!validateEmail(email)) {
+            Toast.makeText(context, "Please enter valid email address", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
         User updatedUser = SharedPrefManager.getInstance(context).getUser();
-        Log.d("1 updateUserDetails", "currently logged in user details\n" + updatedUser.toString());
         updatedUser.setFirstname(firstName);
         updatedUser.setLastname(lastName);
         updatedUser.setEmail(email);
         updatedUser.setUsername(userName);
 
-        Log.d("2 updateUserDetails", "updated user details\n" + updatedUser.toString());
         return update(updatedUser);
     }
 
     // Done
     public boolean changePassword(String oldPassword, String newPassword, String confirmNewPassword) {
 
-        if (!oldPassword.equals(SharedPrefManager.getInstance(context).getUser().getPassword())) {
+        if (!validateCurrentPassword(oldPassword)) {
             Toast.makeText(context, "Current Password incorrect", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (!newPassword.equals(confirmNewPassword)) {
+        if (!validateNewPasswordsMatch(newPassword, confirmNewPassword)) {
             Toast.makeText(context, "Make sure passwords match", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!validatePasswordComplexity(newPassword)) {
+            Toast.makeText(context, "Password does not meet requirements", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -124,16 +144,6 @@ public class UserService {
     // Done
     public void logout() {
         SharedPrefManager.getInstance(context).logout();
-    }
-
-    // Done
-    private boolean allFormFieldsFilledIn(User user) {
-        return !(user.getFirstname().isEmpty() ||
-                user.getLastname().isEmpty() ||
-                user.getEmail().isEmpty() ||
-                user.getUsername().isEmpty() ||
-                user.getPassword().isEmpty() ||
-                user.getConfirmPassword().isEmpty());
     }
 
     // Done
@@ -156,10 +166,48 @@ public class UserService {
     }
 
     // Done
-    private boolean passwordsMatch(User user) {
-        return user.getPassword().equals(user.getConfirmPassword());
+    private boolean allFormFieldsFilledIn(User user) {
+        return !(user.getFirstname().isEmpty() ||
+                user.getLastname().isEmpty() ||
+                user.getEmail().isEmpty() ||
+                user.getUsername().isEmpty() ||
+                user.getPassword().isEmpty() ||
+                user.getConfirmPassword().isEmpty());
+    }
+    
+    // Done
+    private boolean validateNewPasswordsMatch(String newPassword, String confirmNewPassword) {
+        return newPassword.equals(confirmNewPassword);
     }
 
-    // ToDo: password length
-    // ToDo: valid email address
+    // Done
+    private boolean validateEmail(String emailStr) {
+        final Pattern VALID_EMAIL_ADDRESS_REGEX =
+                Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        return matcher.find();
+    }
+
+    // Done
+    private boolean validateCurrentPassword(String password) {
+        return password.equals(SharedPrefManager.getInstance(context).getUser().getPassword());
+    }
+
+    // Done
+    private boolean validatePasswordComplexity(String password) {
+        // validates password meets the following minimum requirements:
+        // - one digit
+        // - one lower case char
+        // - one upper case char
+        // - one special char
+        // - no space
+        // at least 8 chars long
+        final Pattern VALID_PASSWORD_REGEX =
+                Pattern.compile("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!£*@#$%^&_+=])(?=\\S+$).{8,}");
+        Matcher matcher = VALID_PASSWORD_REGEX.matcher(password);
+        return matcher.find();
+    }
 }
+
+
