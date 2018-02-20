@@ -2,7 +2,6 @@ package phg.com.automotiveoctoengine.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +18,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private final Context context = this;
     private final UserService userService = new UserService(this);
-    final SharedPrefManager sharedPrefManager = SharedPrefManager.getInstance(context);
+    private final SharedPrefManager sharedPrefManager = SharedPrefManager.getInstance(context);
 
     private final String LOW = "LOW";
     private final String MEDIUM = "MEDIUM";

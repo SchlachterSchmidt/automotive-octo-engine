@@ -4,11 +4,11 @@ import java.util.List;
 
 public class HistoryResponse {
 
+    private List<HistoryRecord> results;
+
     public HistoryResponse(List<HistoryRecord> results) {
         this.results = results;
     }
-
-    private List<HistoryRecord> results;
 
     public List<HistoryRecord> getResults() {
         return results;
