@@ -174,7 +174,7 @@ public class UserService {
                 user.getPassword().isEmpty() ||
                 user.getConfirmPassword().isEmpty());
     }
-    
+
     // Done
     private boolean validateNewPasswordsMatch(String newPassword, String confirmNewPassword) {
         return newPassword.equals(confirmNewPassword);
