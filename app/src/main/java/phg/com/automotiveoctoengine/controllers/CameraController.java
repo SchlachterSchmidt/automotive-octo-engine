@@ -4,9 +4,12 @@ import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
+import android.util.Log;
+import android.view.SurfaceHolder;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.List;
 
 import phg.com.automotiveoctoengine.interfaces.OnPictureSavedListener;
 
@@ -27,32 +30,6 @@ public class CameraController implements OnPictureSavedListener {
     private CameraController() {
         getCamera();
         setCameraPreferences();
-    }
-
-    private void getCamera() {
-        // moved into separate method as there are situations where we need to get the camera without
-        // calling the constructor
-        int cameraId = getCameraId();
-        if (cameraId < 0)
-            Toast.makeText(context, "No camera found", Toast.LENGTH_SHORT).show();
-        else {
-            try {
-                camera = Camera.open(cameraId);
-            } catch (Exception e) {
-                Toast.makeText(context, "Camera found but in use by other app", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    public Camera getCameraRef() {
-        if (camera != null) {
-            return camera;
-        }
-        else {
-            getCamera();
-            setCameraPreferences();
-            return camera;
-        }
     }
 
     public static CameraController getInstance() {
@@ -88,6 +65,30 @@ public class CameraController implements OnPictureSavedListener {
         return imagePath;
     }
 
+    // TO BE DELETED
+    public Camera getCameraRef() {
+        if (camera != null) {
+            return camera;
+        }
+        else {
+            getCamera();
+            setCameraPreferences();
+            return camera;
+        }
+    }
+
+    @Override
+    public void onPictureSaved(String imagePath) {
+        if (imagePath != null && !imagePath.equals("")) {
+
+            synchronized(this){
+                this.imagePath = imagePath;
+                imageReceived = true;
+                notify();
+            }
+        }
+    }
+
     public void stopCamera() {
         camera.stopPreview();
     }
@@ -101,6 +102,35 @@ public class CameraController implements OnPictureSavedListener {
         if (camera != null) {
             camera.release();
             camera = null;
+        }
+    }
+
+    public void setFocusModeAuto() {
+
+        Camera.Size previewSize;
+        List<Camera.Size> supportedPreviewSizes;
+        supportedPreviewSizes = camera.getParameters().getSupportedPreviewSizes();
+
+
+        // get Camera parameters
+        Camera.Parameters params = camera.getParameters();
+
+        List<String> focusModes = params.getSupportedFocusModes();
+        if (focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+            // set the focus mode
+            params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+            // set Camera parameters
+            this.camera.setParameters(params);
+        }
+    }
+
+    public void setPreviewDisplay(SurfaceHolder holder) {
+        try {
+            if (camera != null) {
+                camera.setPreviewDisplay(holder);
+            }
+        } catch (IOException exception) {
+            Log.e("Preview", "IOException caused by setPreviewDisplay()", exception);
         }
     }
 
@@ -123,8 +153,22 @@ public class CameraController implements OnPictureSavedListener {
         return cameraId;
     }
 
+    private void getCamera() {
+        // moved into separate method as there are situations where we need to get the camera without
+        // calling the constructor
+        int cameraId = getCameraId();
+        if (cameraId < 0)
+            Toast.makeText(context, "No camera found", Toast.LENGTH_SHORT).show();
+        else {
+            try {
+                camera = Camera.open(cameraId);
+            } catch (Exception e) {
+                Toast.makeText(context, "Camera found but in use by other app", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     // ToDo: somehow doesn't set the preferences
-    // images remain 640 by 480
     private void setCameraPreferences() {
         if (camera == null) getCamera();
         SharedPrefManager sharedPrefManager = SharedPrefManager.getInstance(context);
@@ -166,20 +210,8 @@ public class CameraController implements OnPictureSavedListener {
             parameters.setPictureSize(HIGH_WIDTH, HIGH_HEIGHT);
         }
 
-        parameters.setFocusMode(FOCUS_MODE_CONTINUOUS_PICTURE);
+        parameters.setFocusMode(FOCUS_MODE_CONTINUOUS_PICTURE); // FOCUS_MODE_AUTO?
         parameters.setFlashMode(FLASH_OFF);
         camera.setParameters(parameters);
-    }
-
-    @Override
-    public void onPictureSaved(String imagePath) {
-        if (imagePath != null && !imagePath.equals("")) {
-
-            synchronized(this){
-                this.imagePath = imagePath;
-                imageReceived = true;
-                notify();
-            }
-        }
     }
 }

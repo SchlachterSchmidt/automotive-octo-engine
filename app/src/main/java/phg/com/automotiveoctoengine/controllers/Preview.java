@@ -14,30 +14,35 @@ import android.view.ViewGroup;
 
 public class Preview extends ViewGroup implements SurfaceHolder.Callback{
 
-    private final String TAG = "Preview";
+    CameraController cameraController;
 
-    SurfaceView surfaceView;
-    SurfaceHolder surfaceHolder;
+    SurfaceView cameraPreviewSurface;
+    SurfaceHolder cameraPreviewSurfaceHolder;
     Size previewSize;
     List<Size> supportedPreviewSizes;
     Camera camera;
+    Context context;
 
-    public Preview(Context context, SurfaceView surfaceView) {
+    public Preview(Context context, SurfaceView cameraPreviewSurface) {
         super(context);
-        this.surfaceView = surfaceView;
-        surfaceHolder = this.surfaceView.getHolder();
-        surfaceHolder.addCallback(this);
-        surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        this.context = context;
+        this.cameraPreviewSurface = cameraPreviewSurface;
+        cameraPreviewSurfaceHolder = this.cameraPreviewSurface.getHolder();
+        cameraPreviewSurfaceHolder.addCallback(this);
+        cameraPreviewSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
 
-    public void setCamera(Camera camera) {
-        this.camera = camera;
-        if (this.camera != null) {
-            supportedPreviewSizes = this.camera.getParameters().getSupportedPreviewSizes();
+    public void startPreview() {
+        cameraController = CameraController.getInstance();
+//        cameraController.setContext(context);
+//        cameraController.setFocusModeAuto();
+
+        camera = cameraController.getCameraRef();
+            supportedPreviewSizes = camera.getParameters().getSupportedPreviewSizes();
             requestLayout();
 
             // get Camera parameters
-            Camera.Parameters params = this.camera.getParameters();
+            Camera.Parameters params = camera.getParameters();
 
             List<String> focusModes = params.getSupportedFocusModes();
             if (focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
@@ -45,15 +50,12 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback{
                 params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
                 // set Camera parameters
                 this.camera.setParameters(params);
-            }
+
         }
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        // We purposely disregard child measurements because act as a
-        // wrapper to a SurfaceView that centers the camera preview instead
-        // of stretching it.
         final int width = resolveSize(getSuggestedMinimumWidth(), widthMeasureSpec);
         final int height = resolveSize(getSuggestedMinimumHeight(), heightMeasureSpec);
         setMeasuredDimension(width, height);
@@ -78,7 +80,6 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback{
                 previewHeight = previewSize.height;
             }
 
-            // Center the child SurfaceView within the parent.
             if (width * previewHeight > height * previewWidth) {
                 final int scaledChildWidth = previewWidth * height / previewHeight;
                 child.layout((width - scaledChildWidth) / 2, 0,
@@ -91,6 +92,7 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback{
         }
     }
 
+    @Override
     public void surfaceCreated(SurfaceHolder holder) {
         // The Surface has been created, acquire the camera and tell it where
         // to draw.
@@ -99,17 +101,18 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback{
                 camera.setPreviewDisplay(holder);
             }
         } catch (IOException exception) {
-            Log.e(TAG, "IOException caused by setPreviewDisplay()", exception);
+            Log.e("Preview", "IOException caused by setPreviewDisplay()", exception);
         }
+        cameraController.setPreviewDisplay(holder);
     }
 
+    @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         // Surface will be destroyed when we return, so stop the preview.
         if (camera != null) {
             camera.stopPreview();
         }
     }
-
 
     private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
         final double ASPECT_TOLERANCE = 0.1;
@@ -144,7 +147,9 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback{
         return optimalSize;
     }
 
+    @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
+        camera = cameraController.getCameraRef();
         if(camera != null) {
             Camera.Parameters parameters = camera.getParameters();
             parameters.setPreviewSize(previewSize.width, previewSize.height);
@@ -154,5 +159,4 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback{
             camera.startPreview();
         }
     }
-
 }
