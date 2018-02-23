@@ -44,6 +44,17 @@ public class CameraController implements OnPictureSavedListener {
         }
     }
 
+    public Camera getCameraRef() {
+        if (camera != null) {
+            return camera;
+        }
+        else {
+            getCamera();
+            setCameraPreferences();
+            return camera;
+        }
+    }
+
     public static CameraController getInstance() {
         if (instance == null)
             instance = new CameraController();
