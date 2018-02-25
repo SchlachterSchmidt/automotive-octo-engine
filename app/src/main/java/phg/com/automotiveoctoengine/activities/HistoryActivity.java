@@ -6,19 +6,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import phg.com.automotiveoctoengine.R;
@@ -29,6 +37,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     private final Context context = this;
     private LineChart lineChart;
+    private PieChart pieChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +49,31 @@ public class HistoryActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        setChart();
+        setLineChart();
+        setPieChart();
+
         List<HistoryRecord> historyRecordList = getRecords();
 
-        LineData data = getLineData(historyRecordList);
+        LineData lineData = getLineData(historyRecordList);
+        PieData pieData = getPieData(historyRecordList);
 
-        if (data.getEntryCount() != 0) {
-            lineChart.setData(data);
+        if (lineData.getEntryCount() != 0) {
+            lineChart.setData(lineData);
             // render chart
             lineChart.invalidate();
         }
+
+        if (pieData.getEntryCount() != 0) {
+            pieChart.setData(pieData);
+            pieChart.invalidate();
+        }
     }
 
-    private void setChart() {
+
+
+
+
+    private void setLineChart() {
 
         lineChart.getDescription().setEnabled(false);
         // enable touch gestures
@@ -100,6 +121,25 @@ public class HistoryActivity extends AppCompatActivity {
         rightAxis.setEnabled(false);
     }
 
+    private void setPieChart() {
+
+        pieChart = (PieChart) findViewById(R.id.pieChart);
+        pieChart.setUsePercentValues(true);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.setExtraOffsets(5, 10, 5, 5);
+        pieChart.setDragDecelerationFrictionCoef(0.95f);
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setHoleColor(Color.WHITE);
+
+        pieChart.setTransparentCircleColor(Color.WHITE);
+        pieChart.setTransparentCircleAlpha(110);
+
+        pieChart.setHoleRadius(58f);
+        pieChart.setTransparentCircleRadius(61f);
+
+        pieChart.setDrawCenterText(true);
+    }
+
     private LineData getLineData(List<HistoryRecord> historyRecordList) {
 
         List<Entry> XYvalues = new ArrayList<>();
@@ -124,6 +164,38 @@ public class HistoryActivity extends AppCompatActivity {
         LineData data = new LineData(lineDataSet);
         data.setValueTextColor(Color.WHITE);
         data.setValueTextSize(9f);
+
+        return data;
+    }
+
+    private PieData getPieData(List<HistoryRecord> historyRecordList) {
+        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+
+
+        Map<Float, Integer> distractorCounts = new HashMap<Float, Integer>();
+
+        for (HistoryRecord record: historyRecordList) {
+            Float label = record.getPredicted_label();
+            Integer previousCount = distractorCounts.get(label);
+            distractorCounts.put(label, previousCount == null ? 1 : previousCount + 1);
+        }
+
+        for (Map.Entry<Float, Integer> distractorCount : distractorCounts.entrySet()){
+            Float key = distractorCount.getKey();
+            Integer value = distractorCount.getValue();
+            entries.add(new PieEntry(key, value));
+        }
+
+        PieDataSet dataSet = new PieDataSet(entries, "Distractor Catagories");
+
+        dataSet.setDrawIcons(false);
+
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
+
+        PieData data = new PieData(dataSet);
+        data.setValueFormatter(new PercentFormatter());
+        data.setValueTextSize(11f);
 
         return data;
     }

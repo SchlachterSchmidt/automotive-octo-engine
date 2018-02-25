@@ -19,4 +19,8 @@ public class HistoryRecord {
     public void setId(int id) {
         this.id = id;
     }
+
+    public float getPredicted_label() {
+        return predicted_label;
+    }
 }
