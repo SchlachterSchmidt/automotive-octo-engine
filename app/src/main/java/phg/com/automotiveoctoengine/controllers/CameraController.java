@@ -105,25 +105,6 @@ public class CameraController implements OnPictureSavedListener {
         }
     }
 
-    public void setFocusModeAuto() {
-
-        Camera.Size previewSize;
-        List<Camera.Size> supportedPreviewSizes;
-        supportedPreviewSizes = camera.getParameters().getSupportedPreviewSizes();
-
-
-        // get Camera parameters
-        Camera.Parameters params = camera.getParameters();
-
-        List<String> focusModes = params.getSupportedFocusModes();
-        if (focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
-            // set the focus mode
-            params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-            // set Camera parameters
-            this.camera.setParameters(params);
-        }
-    }
-
     public void setPreviewDisplay(SurfaceHolder holder) {
         try {
             if (camera != null) {
@@ -168,25 +149,24 @@ public class CameraController implements OnPictureSavedListener {
         }
     }
 
-    // ToDo: somehow doesn't set the preferences
     private void setCameraPreferences() {
         if (camera == null) getCamera();
-        SharedPrefManager sharedPrefManager = SharedPrefManager.getInstance(context);
-        Camera.Parameters parameters = camera.getParameters();
-        String FLASH_OFF = "FLASH_MODE_OFF";
 
         final String LOW = "LOW";
         final int LOW_INT = 40;
-        final int SMALL_WIDTH = 480;
-        final int SMALL_HEIGHT = 360;
+        final int SMALL_WIDTH = 640;
+        final int SMALL_HEIGHT = 480;
         final String MEDIUM = "MEDIUM";
         final int MEDIUM_INT = 70;
-        final int MEDIUM_WIDTH = 640;
-        final int MEDIUM_HEIGHT = 480;
+        final int MEDIUM_WIDTH = 720;
+        final int MEDIUM_HEIGHT = 1280;
         final String HIGH = "HIGH";
         final int HIGH_INT = 100;
-        final int HIGH_WIDTH = 960;
-        final int HIGH_HEIGHT = 720;
+        final int HIGH_WIDTH = 1920;
+        final int HIGH_HEIGHT = 1080;
+
+        SharedPrefManager sharedPrefManager = SharedPrefManager.getInstance(context);
+        Camera.Parameters parameters = camera.getParameters();
 
         String imageCompression = sharedPrefManager.getImageCompression();
         if (imageCompression.equals(LOW)) {
@@ -210,8 +190,7 @@ public class CameraController implements OnPictureSavedListener {
             parameters.setPictureSize(HIGH_WIDTH, HIGH_HEIGHT);
         }
 
-        parameters.setFocusMode(FOCUS_MODE_CONTINUOUS_PICTURE); // FOCUS_MODE_AUTO?
-        parameters.setFlashMode(FLASH_OFF);
+        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
         camera.setParameters(parameters);
     }
 }
