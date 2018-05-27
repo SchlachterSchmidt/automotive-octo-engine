@@ -147,7 +147,7 @@ public class UserService {
     }
 
     // Done
-    public Boolean deactivateAccount(Boolean isChecked) {
+    public boolean deactivateAccount(Boolean isChecked) {
 
         if (!isChecked) {
             Toast.makeText(context, "Check box to deactivate account", Toast.LENGTH_SHORT).show();
