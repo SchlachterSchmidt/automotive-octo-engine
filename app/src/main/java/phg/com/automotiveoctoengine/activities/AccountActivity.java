@@ -37,7 +37,6 @@ public class AccountActivity extends AppCompatActivity {
         deactivateAccount();
     }
 
-    // done
     private void updateUserDetails() {
 
         User currentUser = SharedPrefManager.getInstance(context).getUser();
@@ -67,7 +66,6 @@ public class AccountActivity extends AppCompatActivity {
                 Boolean success = userService.updateUserDetails(firstName, lastName, mail, userName);
 
                 if (success) {
-
                     Toast.makeText(context, "Account updated successfully", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(AccountActivity.this, HomeActivity.class);
                     startActivity(intent);
@@ -76,7 +74,6 @@ public class AccountActivity extends AppCompatActivity {
         });
     }
 
-    // done
     private void changePassword() {
 
         final UserService userService = new UserService(context);
@@ -85,7 +82,6 @@ public class AccountActivity extends AppCompatActivity {
         old_password = findViewById(R.id.editText_old_password);
         new_password = findViewById(R.id.editText_new_password);
         confirm_password = findViewById(R.id.editText_confirm_new_password);
-
 
         submit_change_password.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +100,6 @@ public class AccountActivity extends AppCompatActivity {
         });
     }
 
-    // Done
     private void deactivateAccount() {
 
         final UserService userService = new UserService(context);

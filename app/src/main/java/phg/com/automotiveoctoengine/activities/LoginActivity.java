@@ -20,7 +20,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //if the user is already logged in we will directly start the profile activity
         if (SharedPrefManager.getInstance(this).isLoggedIn()) {
             finish();
             startActivity(new Intent(this, HomeActivity.class));
@@ -30,7 +29,6 @@ public class LoginActivity extends AppCompatActivity {
         register();
     }
 
-    // Done
     private void login(){
         final EditText username = findViewById(R.id.editText_username);
         final EditText password = findViewById(R.id.editText_password);

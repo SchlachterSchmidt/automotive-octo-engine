@@ -19,7 +19,6 @@ public class UserService {
         this.context = context;
     }
 
-    // Done
     public boolean register(User user) {
 
         if (!allFormFieldsFilledIn(user)) {
@@ -62,7 +61,6 @@ public class UserService {
         }
     }
 
-    // Done
     public boolean login(User protoUser) {
 
         UserDAO userDAO = new UserDAO(context);
@@ -82,7 +80,6 @@ public class UserService {
         }
     }
 
-    // Done
     private boolean update(User user) {
         UserDAO userDAO = new UserDAO(context);
         try {
@@ -97,7 +94,6 @@ public class UserService {
         }
     }
 
-    // Done
     public boolean updateUserDetails(String firstName, String lastName, String email, String userName) {
 
         if (!validateEmail(email)) {
@@ -114,7 +110,6 @@ public class UserService {
         return update(updatedUser);
     }
 
-    // Done
     public boolean changePassword(String oldPassword, String newPassword, String confirmNewPassword) {
 
         if (!validateCurrentPassword(oldPassword)) {
@@ -125,7 +120,6 @@ public class UserService {
             Toast.makeText(context, "Make sure passwords match", Toast.LENGTH_SHORT).show();
             return false;
         }
-
         if (!validatePasswordComplexity(newPassword)) {
             Toast.makeText(context, "Password does not meet requirements", Toast.LENGTH_SHORT).show();
             return false;
@@ -141,12 +135,10 @@ public class UserService {
         else return false;
     }
 
-    // Done
     public void logout() {
         SharedPrefManager.getInstance(context).logout();
     }
 
-    // Done
     public boolean deactivateAccount(Boolean isChecked) {
 
         if (!isChecked) {
@@ -165,7 +157,6 @@ public class UserService {
         return true;
     }
 
-    // Done
     private boolean allFormFieldsFilledIn(User user) {
         return !(user.getFirstname().isEmpty() ||
                 user.getLastname().isEmpty() ||
@@ -175,12 +166,10 @@ public class UserService {
                 user.getConfirmPassword().isEmpty());
     }
 
-    // Done
     private boolean validateNewPasswordsMatch(String newPassword, String confirmNewPassword) {
         return newPassword.equals(confirmNewPassword);
     }
 
-    // Done
     private boolean validateEmail(String emailStr) {
         final Pattern VALID_EMAIL_ADDRESS_REGEX =
                 Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
@@ -189,12 +178,10 @@ public class UserService {
         return matcher.find();
     }
 
-    // Done
     private boolean validateCurrentPassword(String password) {
         return password.equals(SharedPrefManager.getInstance(context).getUser().getPassword());
     }
 
-    // Done
     private boolean validatePasswordComplexity(String password) {
         // validates password meets the following minimum requirements:
         // - one digit

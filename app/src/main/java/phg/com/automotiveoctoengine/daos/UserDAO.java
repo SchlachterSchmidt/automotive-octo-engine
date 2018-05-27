@@ -24,7 +24,6 @@ public class UserDAO {
         this.context = context;
     }
 
-    // Done
     public boolean register(User user) throws IOException {
 
         final MediaType MEDIA_TYPE = MediaType.parse("application/json");
@@ -52,7 +51,6 @@ public class UserDAO {
        }
     }
 
-    // Done
     public User login(User protoUser) throws IOException {
 
         final OkHttpHandler okHttpHandler = new OkHttpHandler(context);
@@ -81,7 +79,6 @@ public class UserDAO {
         }
     }
 
-    // Done
     public User update(User newUser) throws IOException {
 
         final OkHttpHandler okHttpHandler = new OkHttpHandler(context);

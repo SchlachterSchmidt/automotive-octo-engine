@@ -53,11 +53,6 @@ public class MonitoringDAO {
             if (response == null) {
                 throw new NetworkErrorException("No response from server");
             }
-//            if (!response.isSuccessful()) {
-//                throw new NetworkErrorException("Message received by server but not processed");
-//            }
-
-//            String responseJson = response.body().string();
             Log.d("MonitoringDAO response", response);
             return gson.fromJson(response ,Classification.class);
         } catch (InterruptedException | ExecutionException e) {

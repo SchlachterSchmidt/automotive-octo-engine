@@ -20,7 +20,6 @@ import static java.lang.Thread.sleep;
 
 public class MonitoringService extends IntentService {
 
-    // dummy value, will be the selected frequency from shared preferences
     private final SharedPrefManager sharedPrefManager = SharedPrefManager.getInstance(this);
     private  int frequency = sharedPrefManager.getMonitoringFrequencyAsInt();
     private boolean monitoring = false;
@@ -41,7 +40,6 @@ public class MonitoringService extends IntentService {
         StopReceiver receiver = new StopReceiver();
         registerReceiver(receiver, new IntentFilter(StopReceiver.ACTION_STOP));
 
-        // while monitoring is enabled, take pics at regular intervals
         monitoring = true;
         while(monitoring) {
             String imagePath = cameraController.takePicture();

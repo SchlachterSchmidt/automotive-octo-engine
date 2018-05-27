@@ -19,7 +19,6 @@ public class CameraController implements OnPictureSavedListener {
 
     // singleton CameraController class
     private static CameraController instance = null;
-    // NotificationController nc = new NotificationController();
 
     private Camera camera;
     private String imagePath = "null";
@@ -58,14 +57,12 @@ public class CameraController implements OnPictureSavedListener {
                     wait();
                 }
             }
-            //nc.redFlashLight(context);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
         return imagePath;
     }
 
-    // TO BE DELETED
     public Camera getCameraRef() {
         if (camera != null) {
             return camera;

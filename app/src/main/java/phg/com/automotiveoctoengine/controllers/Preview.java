@@ -34,21 +34,16 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback{
 
     public void startPreview() {
         cameraController = CameraController.getInstance();
-//        cameraController.setContext(context);
-//        cameraController.setFocusModeAuto();
 
         camera = cameraController.getCameraRef();
             supportedPreviewSizes = camera.getParameters().getSupportedPreviewSizes();
             requestLayout();
 
-            // get Camera parameters
             Camera.Parameters params = camera.getParameters();
 
             List<String> focusModes = params.getSupportedFocusModes();
             if (focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
-                // set the focus mode
                 params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-                // set Camera parameters
                 this.camera.setParameters(params);
 
         }
@@ -94,8 +89,7 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback{
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        // The Surface has been created, acquire the camera and tell it where
-        // to draw.
+        // The Surface has been created, acquire the camera and tell it where to draw.
         try {
             if (camera != null) {
                 camera.setPreviewDisplay(holder);
@@ -108,7 +102,6 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback{
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        // Surface will be destroyed when we return, so stop the preview.
         if (camera != null) {
             camera.stopPreview();
         }
@@ -124,7 +117,6 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback{
 
         int targetHeight = h;
 
-        // Try to find an size match aspect ratio and size
         for (Size size : sizes) {
             double ratio = (double) size.width / size.height;
             if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) continue;
@@ -134,7 +126,6 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback{
             }
         }
 
-        // Cannot find the one match the aspect ratio, ignore the requirement
         if (optimalSize == null) {
             minDiff = Double.MAX_VALUE;
             for (Size size : sizes) {

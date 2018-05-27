@@ -60,7 +60,6 @@ public class HistoryActivity extends AppCompatActivity {
 
         if (lineData.getEntryCount() != 0) {
             lineChart.setData(lineData);
-            // render chart
             lineChart.invalidate();
         }
 
@@ -72,15 +71,12 @@ public class HistoryActivity extends AppCompatActivity {
 
     private void setLineChart() {
         lineChart.getDescription().setEnabled(false);
-        // enable touch gestures
         lineChart.setTouchEnabled(true);
         lineChart.setDragDecelerationFrictionCoef(0.9f);
-        // enable scaling and dragging
         lineChart.setDragEnabled(true);
         lineChart.setScaleEnabled(true);
         lineChart.setDrawGridBackground(false);
         lineChart.setHighlightPerDragEnabled(true);
-        // background color and padding
         lineChart.setBackgroundColor(Color.WHITE);
         lineChart.setViewPortOffsets(100f, 100f, 100f, 100f);
 
