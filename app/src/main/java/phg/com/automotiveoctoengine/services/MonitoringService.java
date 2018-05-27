@@ -12,6 +12,7 @@ import android.widget.Toast;
 import java.io.IOException;
 
 import phg.com.automotiveoctoengine.controllers.CameraController;
+import phg.com.automotiveoctoengine.controllers.SharedPrefManager;
 import phg.com.automotiveoctoengine.daos.MonitoringDAO;
 import phg.com.automotiveoctoengine.models.Classification;
 
@@ -20,7 +21,8 @@ import static java.lang.Thread.sleep;
 public class MonitoringService extends IntentService {
 
     // dummy value, will be the selected frequency from shared preferences
-    private final int frequency = 3000;
+    private final SharedPrefManager sharedPrefManager = SharedPrefManager.getInstance(this);
+    private  int frequency = sharedPrefManager.getMonitoringFrequencyAsInt();
     private boolean monitoring = false;
 
     private final CameraController cameraController = CameraController.getInstance();

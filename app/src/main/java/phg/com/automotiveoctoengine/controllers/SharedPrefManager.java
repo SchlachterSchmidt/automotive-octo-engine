@@ -158,4 +158,12 @@ public class SharedPrefManager {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_MONITORING_SETTINGS, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_MONITORING_FREQUENCY, MEDIUM);
     }
+
+    public int getMonitoringFrequencyAsInt() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_MONITORING_SETTINGS, Context.MODE_PRIVATE);
+        String frequency = sharedPreferences.getString(KEY_MONITORING_FREQUENCY, MEDIUM);
+        if (frequency.equals("LOW")) return 3000;
+        if (frequency.equals("MEDIUM")) return 2000;
+        return 1000;
+    }
 }
